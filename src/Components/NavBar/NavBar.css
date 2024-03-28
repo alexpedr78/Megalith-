@@ -1,0 +1,19 @@
+.navbar {
+  background-color: #3b5f58;
+  /*overflow: hidden;*/
+  width: 300%;
+  padding: 14px 16px;
+  height: 100%;
+  float: left;
+  display: flex;
+  color: white;
+  text-align: left;
+}
+h3 {
+  font-family: "Garamond", "Palatino", serif;
+}
+.logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
