@@ -11,24 +11,33 @@ function MapComponent() {
   };
 
   return (
-    <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
-      style={{ height: "400px", width: "400px" }}
-      onClick={addMarker}
+    <div
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
     >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {markers.map((marker, index) => (
-        <Marker key={index} position={[marker.lat, marker.lng]}>
-          <Popup>
-            Marker {index + 1} <br /> Location: {marker.lat}, {marker.lng}
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
+      <MapContainer
+        center={[51.505, -0.09]}
+        zoom={13}
+        style={{ height: "400px", width: "400px" }}
+        onClick={addMarker}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {markers.map((marker, index) => (
+          <Marker key={index} position={[marker.lat, marker.lng]}>
+            <Popup>
+              Marker {index + 1} <br /> Location: {marker.lat}, {marker.lng}
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
   );
 }
 

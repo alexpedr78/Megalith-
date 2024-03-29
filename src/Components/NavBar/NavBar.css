@@ -1,19 +1,26 @@
 .navbar {
   background-color: #3b5f58;
-  /*overflow: hidden;*/
-  width: 300%;
+  width: 100%;
   padding: 14px 16px;
-  height: 100%;
-  float: left;
   display: flex;
   color: white;
   text-align: left;
+  position: sticky;
+  top: 1px;
+  justify-content: space-between;
 }
 h3 {
   font-family: "Garamond", "Palatino", serif;
+  text-align: center;
 }
 .logo {
   width: 40px;
   height: auto;
   margin-right: 10px;
+}
+.button-navbar button {
+  width: 40px;
+  background-color: transparent;
+  border: none;
+  background: none;
 }
