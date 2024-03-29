@@ -7,8 +7,8 @@ const Earth = () => {
   useEffect(() => {
     // Création de la scène, de la caméra et du rendu
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff); // Définir la couleur de fond sur blanc avec une transparence réduite
-    scene.background.a = 0.5; // Réglage de la transparence sur 0.5 (valeur entre 0 et 1)
+    scene.background = new THREE.Color(0xffffff);
+    //scene.background.setAlpha(0); // Définir la couleur de fond sur blanc
 
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -18,6 +18,7 @@ const Earth = () => {
     );
     camera.position.z = 5;
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // Définissez alpha sur true pour un fond transparent
+    renderer.setClearColor(0xffffff, 0); // Définissez la couleur de fond sur blanc et l'opacité sur 0 pour un fond transparent
     renderer.setSize(window.innerWidth, window.innerHeight);
     earthRef.current.appendChild(renderer.domElement);
 
