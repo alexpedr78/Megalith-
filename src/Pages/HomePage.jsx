@@ -7,8 +7,5 @@ function HomePage() {
       <div className="earth-container">
         <Earth />
       </div>
-    </div>
-  );
-}
 
 export default HomePage;
