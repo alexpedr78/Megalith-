@@ -24,3 +24,9 @@ h3 {
   border: none;
   background: none;
 }
+.button-navbar > button:hover {
+  cursor: pointer;
+}
+.container {
+  height: 90vh;
+}
