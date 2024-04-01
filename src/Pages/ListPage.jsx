@@ -24,6 +24,9 @@ function ListPage() {
       if (selectValue !== "-1") {
         searchParams += `&type=${selectValue}`;
       }
+      // if(selectDepartements !== -1){
+      //   searchParams
+      // }
       const response = await axios.get(url + searchParams);
       setMegalith(response.data);
     } catch (error) {
@@ -81,9 +84,11 @@ function ListPage() {
 
   return (
     <div className="ListPage">
-      <div className="ContainerInputListPage">
+      <div className="buttonContainer">
+        {" "}
         <div className="SelectListPage">
           <select
+            className="button-50"
             onChange={handleSelectChange}
             name=""
             id=""
@@ -104,22 +109,24 @@ function ListPage() {
             <option value="Cairn">Cairn</option>
           </select>
         </div>
-
         <div className="searchBarListPage">
           <input
+            className="button-50"
             type="text"
             onChange={(event) => handleChange(event)}
             placeholder="Search by name"
           />
         </div>
       </div>
+      <div className="ContainerInputListPage"></div>
       <div className="ListItemContainer">
         {megalith.map((site) => {
           return (
             <article className="megalithItem" key={site.id}>
               <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
               <p>{site.type ? `Category of the site : ${site.type}` : null}</p>
-              <p>{site.state ? `State : ${site.state}` : null}</p>
+              <p>{site.state ? `Department : ${site.state}` : null}</p>
+              <p>{site.village ? `Village : ${site.village}` : null}</p>
               <p>
                 {site.description ? `description : ${site.description}` : null}
               </p>
@@ -131,29 +138,46 @@ function ListPage() {
                   : null}
               </p>
 
-              <button onClick={() => handleDelete(site.id)}>delete</button>
+              <button
+                className="button-55"
+                onClick={() => handleDelete(site.id)}
+              >
+                delete
+              </button>
 
               {/* ///////////////////////////////////////////////////// */}
               {editId === site.id ? ( // Conditionally render form for editing
                 <div>
                   <input
+                    className="button-55"
                     type="text"
                     value={updatedName}
                     onChange={(e) => setUpdatedName(e.target.value)}
                     placeholder={site.name}
                   />
                   <input
+                    className="button-55"
                     type="text"
                     value={updateDescription}
                     onChange={(e) => setUpdatedDescription(e.target.value)}
                     placeholder={site.description ? `${site.description}` : ""}
                   />
-                  <button onClick={() => handleUpdate(site.id)}>Save</button>
-                  <button onClick={handleCancelEdit}>Cancel</button>
+                  <button
+                    className=".button-55"
+                    onClick={() => handleUpdate(site.id)}
+                  >
+                    Save
+                  </button>
+                  <button className=".button-55" onClick={handleCancelEdit}>
+                    Cancel
+                  </button>
                 </div>
               ) : (
                 <div>
-                  <button onClick={() => handleEdit(site.id, site.name)}>
+                  <button
+                    className=".button-55"
+                    onClick={() => handleEdit(site.id, site.name)}
+                  >
                     Update
                   </button>
                 </div>

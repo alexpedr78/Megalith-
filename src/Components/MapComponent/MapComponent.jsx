@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
-import MarkerClusterGroup from "react-leaflet-markercluster";
+// import MarkerClusterGroup from "react-leaflet-markercluster";
 const url = "https://project-management-first-try.adaptable.app";
 
 function MapComponent() {
@@ -57,11 +57,22 @@ function MapComponent() {
   };
 
   return (
-    <div style={{ height: "400px", width: "400px" }}>
+    <div
+      style={{
+        height: "400px",
+        width: "400px",
+        margin: "auto",
+        top: "7rem",
+        position: "sticky",
+      }}
+    >
       <MapContainer
         center={[48, 0.6]}
         zoom={5}
-        style={{ height: "100%", width: "100%" }}
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
       >
         <AddMarkerOnClick />
         <TileLayer
