@@ -1,12 +1,13 @@
 .footer {
   display: flex;
+  flex-direction: column;
   background-color: transparent;
   color: white;
   padding: 20px;
   position: fixed;
   bottom: 0;
   width: 100%;
-  justify-content: space;
+  justify-content: space-evenly;
   & p {
     color: black;
   }
@@ -20,6 +21,20 @@
 
 .footer a:hover {
   color: #007bff;
+}
+.logo-footer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.credit-footer {
+  display: flex;
+  justify-content: center;
+
+  p {
+    font-size: 0.7rem;
+  }
 }
 .imgMenhir img {
   height: 30px;

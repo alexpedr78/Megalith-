@@ -1,13 +1,16 @@
 .navbar {
   background-color: #3b5f58;
   width: 100%;
-  padding: 14px 16px;
+  padding: 0px 15px;
   display: flex;
   color: white;
   text-align: left;
   position: sticky;
-  top: 1px;
+  top: 0px;
   justify-content: space-between;
+  z-index: 2;
+  align-items: center;
+  height: 4rem;
 }
 h3 {
   font-family: "Garamond", "Palatino", serif;
