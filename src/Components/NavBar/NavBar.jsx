@@ -1,4 +1,3 @@
-import React, { useRef, useEffect, useState } from "react";
 import "./NavBar.css";
 import logo from "../../assets/menhir.png";
 
