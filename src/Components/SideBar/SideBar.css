@@ -1,12 +1,12 @@
 .side-bar {
   width: 80px;
-  height: 80%;
+  height: 200%;
   color: black;
   position: fixed;
   text-align: center;
-  top: 100px;
+  top: 0;
   left: 0;
-  transition: transform 0.3s ease;
+  transition: transform 3s ease;
   transform: translateX(-250px); /* Sidebar rétractée par défaut */
 }
 
@@ -30,9 +30,9 @@
 }
 
 .side-small {
-  display: none; /* Les éléments "side-small" sont cachés par défaut */
+  display: none;
 }
 
 .side-bar.open .side-small {
-  display: block; /* Afficher les éléments "side-small" lorsque la barre latérale est ouverte */
+  display: block;
 }
