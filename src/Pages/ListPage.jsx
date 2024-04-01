@@ -1,19 +1,23 @@
-import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import "./ListPage.css";
+import { useState } from "react";
+
 const url = "https://project-management-first-try.adaptable.app";
+
 function ListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [megalith, setMegalith] = useState([]);
-  //   const [originalMegalith, setOriginalMegalith] = useState("");
   const [site, setSite] = useState("");
   const [selectValue, setSelectValue] = useState("-1");
   const [timeOutId, setTimeOutid] = useState(null);
-  // `/&type=${selectValue}&`
+  const [editId, setEditId] = useState(null); // Track which megalith is being edited
+  const [updatedName, setUpdatedName] = useState("");
+  const [updateDescription, setUpdatedDescription] = useState("");
+
   async function displayMegalith() {
     try {
-      let searchParams = `/megalith?_limit=50&_page=${currentPage}`;
+      let searchParams = `/megalith?_limit=25&_page=${currentPage}`;
       if (site) {
         searchParams += `&name_like=${site}`;
       }
@@ -21,8 +25,39 @@ function ListPage() {
         searchParams += `&type=${selectValue}`;
       }
       const response = await axios.get(url + searchParams);
-      console.log(response.data);
       setMegalith(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleUpdate(id, updatedData) {
+    try {
+      await axios.put(`${url}/megalith/${id}`, updatedData);
+      setEditId(null); // Clear the edit state
+      displayMegalith(); // Refresh the megalith list
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function handleSelectChange(event) {
+    const { value } = event.target;
+    setSelectValue(value);
+  }
+
+  function handleEdit(id) {
+    setEditId(id);
+  }
+
+  function handleCancelEdit() {
+    setEditId(null); // Clear the edit state
+  }
+  async function handleDelete(id) {
+    try {
+      await axios.delete(`${url}/megalith/${id}`);
+      setMegalith((prevMegalith) =>
+        prevMegalith.filter((site) => site.id !== id)
+      );
     } catch (error) {
       console.log(error);
     }
@@ -40,94 +75,114 @@ function ListPage() {
     let id = setTimeout(() => {
       setSite(event.target.value);
     }, 500);
-    // const selectedType = megalith.filter((elem) => elem.type === selectValue);
+
     setTimeOutid(id);
   }
-  function handleSelectChange(event) {
-    const { value } = event.target;
-    setSelectValue(value);
-  }
 
-  //   const searchItem = megalith.filter((elem) => {
-  //     if (selectValue === "-1") {
-  //       return elem.name.toLowerCase().includes(site.toLowerCase());
-  //     } else {
-  //       return (
-  //         elem.name.toLowerCase().includes(site.toLowerCase()) ||
-  //         megalith.filter((elem) => elem.type === selectValue)
-  //       );
-  //     }
-  //   });
-  //   const filteredMegalith = megalith.filter((elem) =>
-  //     elem.name.toLowerCase().includes(site.toLowerCase())
-  //   );
-  //   async function searchBar() {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://project-management-first-try.adaptable.app/megalith?name_like=${site}`
-  //       );
-  //       //   &_limit=50&_page=${currentPage}
-  //       console.log(response.data);
-  //       if (site === "") {
-  //         setCurrentPage(1);
-  //         setMegalith(originalMegalith);
-  //       } else {
-  //         setMegalith(response.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // (event) => {
-  //     setSelectValue(event.target.value);
-  //   searchBar();
   return (
-    <div>
-      <p>ListPage</p>
-      <select onChange={handleSelectChange} name="" id="" value={selectValue}>
-        <option disabled value="-1">
-          select
-        </option>
-        <option value="-1">All</option>
-        <option value="Stone Circle">Stone Circle</option>
-        <option value="Stone Circle">Stone Circle</option>
-        <option value="Stone Circle">Stone Circle</option>
-        <option value="Stone Circle">Stone Circle</option>
-      </select>
+    <div className="ListPage">
+      <div className="ContainerInputListPage">
+        <div className="SelectListPage">
+          <select
+            onChange={handleSelectChange}
+            name=""
+            id=""
+            value={selectValue}
+          >
+            <option disabled value="-1">
+              select
+            </option>
+            <option value="-1">All</option>
+            <option value="Stone Circle">Stone Circle</option>
+            <option value="Standing Stone (Menhir)">
+              Standing Stone (Menhir)
+            </option>
+            <option value="Burial Chamber or Dolmen">
+              Burial Chamber or Dolmen
+            </option>
+            <option value="Cave or Rock Shelter">Cave or Rock Shelter</option>
+            <option value="Cairn">Cairn</option>
+          </select>
+        </div>
 
-      <input
-        type="text"
-        onChange={(event) => handleChange(event)}
-        placeholder="Search by name"
-      />
+        <div className="searchBarListPage">
+          <input
+            type="text"
+            onChange={(event) => handleChange(event)}
+            placeholder="Search by name"
+          />
+        </div>
+      </div>
+      <div className="ListItemContainer">
+        {megalith.map((site) => {
+          return (
+            <article className="megalithItem" key={site.id}>
+              <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
+              <p>{site.type ? `Category of the site : ${site.type}` : null}</p>
+              <p>{site.state ? `State : ${site.state}` : null}</p>
+              <p>
+                {site.description ? `description : ${site.description}` : null}
+              </p>
+              <p>
+                {site.position
+                  ? `Position of the site : (${
+                      site.position.lat ? site.position.lat : "N/A"
+                    }, ${site.position.long ? site.position.long : "N/A"})`
+                  : null}
+              </p>
 
-      {megalith.map((site) => {
-        return (
-          <article className="megalithItem" key={site.id}>
-            <p>{site.name}</p>
-            <p>{site.type}</p>
-            <p>{site.position.long}</p>
-            <p>{site.position.lat}</p>
-          </article>
-        );
-      })}
-      <button
-        className="buttonListPage"
-        onClick={() => {
-          setCurrentPage(currentPage - 1);
-        }}
-        disabled={currentPage === 1}
-      >
-        Previous
-      </button>
-      <button
-        className="buttonListPage"
-        onClick={() => {
-          setCurrentPage((prev) => prev + 1);
-        }}
-      >
-        Next
-      </button>
+              <button onClick={() => handleDelete(site.id)}>delete</button>
+
+              {/* ///////////////////////////////////////////////////// */}
+              {editId === site.id ? ( // Conditionally render form for editing
+                <div>
+                  <input
+                    type="text"
+                    value={updatedName}
+                    onChange={(e) => setUpdatedName(e.target.value)}
+                    placeholder={site.name}
+                  />
+                  <input
+                    type="text"
+                    value={updateDescription}
+                    onChange={(e) => setUpdatedDescription(e.target.value)}
+                    placeholder={site.description ? `${site.description}` : ""}
+                  />
+                  <button onClick={() => handleUpdate(site.id)}>Save</button>
+                  <button onClick={handleCancelEdit}>Cancel</button>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => handleEdit(site.id, site.name)}>
+                    Update
+                  </button>
+                </div>
+              )}
+              {/* /////////////////// */}
+            </article>
+          );
+        })}
+      </div>
+      {/* ///////////////////////////// */}
+      <div className="buttonListPage">
+        <button
+          onClick={() => {
+            setCurrentPage(currentPage - 1);
+          }}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <button
+          onClick={() => {
+            setCurrentPage((prev) => prev + 1);
+          }}
+        >
+          Next
+        </button>
+      </div>
+      <p>{currentPage}</p>
+      {/* /////////////////// */}
     </div>
   );
 }
