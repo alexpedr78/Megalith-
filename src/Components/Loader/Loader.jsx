@@ -1,4 +1,4 @@
-//import React from "react";
+import React from "react";
 import "./Loader.css";
 import menhirImage from "../../assets/menhir.png";
 
