@@ -1,23 +1,33 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 // import MarkerClusterGroup from "react-leaflet-markercluster";
-const url = "https://project-management-first-try.adaptable.app";
+let url = "https://project-management-first-try.adaptable.app/megalith?";
 
 function MapComponent() {
   const [markers, setMarkers] = useState([]);
-  const [type, setType] = useState("Stone Circle");
+  const [type, setType] = useState("-1");
+  const [region, setRegion] = useState("-1");
+  const [addToggle, setAddToggle] = useState(false);
   async function displayMegalith() {
+    let apiUrl = url;
+    let params = [];
+    if (region !== "-1") {
+      params.push(`state=${region}`);
+    }
+    if (type !== "-1") {
+      params.push(`type=${type}`);
+    }
+    if (type === "-1" && region === "-1") {
+      return;
+    }
+
+    console.log(type);
+    console.log(`Region:${region}`);
     try {
-      const response = await axios.get(`${url}/megalith?type=${type}`);
+      const response = await axios.get(apiUrl + params.join("&"));
       console.log(response);
       let megalithArray = response.data.map((elem) => ({
         name: elem.name,
@@ -32,23 +42,8 @@ function MapComponent() {
     }
   }
   useEffect(() => {
-    displayMegalith(); // Call the function immediately
-
-    // Clean-up function not needed here since there are no subscriptions or timers
-  }, []);
-
-  const AddMarkerOnClick = () => {
-    useMapEvents({
-      click(e) {
-        const { lat, lng } = e.latlng;
-        const newMarker = { lat, lng, popupContent: "" }; // Initialize popup content
-        setMarkers([...markers, newMarker]);
-      },
-    });
-
-    return null;
-  };
-  function handleCategory() {}
+    displayMegalith();
+  }, [type, region]);
 
   const updatePopupContent = (index, content) => {
     const updatedMarkers = [...markers];
@@ -56,11 +51,136 @@ function MapComponent() {
     setMarkers(updatedMarkers);
     console.log(markers);
   };
+  const [name, setName] = useState("");
+  const [state, setState] = useState("");
+  const [typeForm, setTypeForm] = useState("");
+  const [description, setDescription] = useState("");
+  const [village, setVillage] = useState("");
+
+  const addMegalith = async (event) => {
+    event.preventDefault();
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+
+      let newMegalith = {
+        id: crypto.randomUUID(),
+        state: state,
+        type: typeForm,
+        name: name,
+        village: village,
+        description: description,
+        position: {
+          long: longitude,
+          lat: latitude,
+        },
+      };
+
+      try {
+        const response = await axios.post(url, newMegalith);
+        if (response) {
+          setMarkers([...markers, newMegalith]);
+          setName("");
+          setState("");
+          setTypeForm("");
+          setVillage("");
+          setDescription("");
+          setAddToggle(false);
+        } else {
+          console.error("Failed to add megalith");
+        }
+      } catch (error) {
+        console.error("Error adding megalith:", error);
+      }
+    });
+  };
 
   return (
     <div>
-      <div>
-        <button onChange={handleCategory}>selct catgoiry</button>
+      <div className="mainMapPage">
+        <select
+          className="button-50"
+          onChange={(event) => setType(event.target.value)}
+          name=""
+          id=""
+          value={type}
+        >
+          <option disabled value="-1">
+            Select a Category
+          </option>
+          <option value="-1">All</option>
+          <option value="Stone Circle">Stone Circle</option>
+          <option value="Standing Stone (Menhir)">
+            Standing Stone (Menhir)
+          </option>
+          <option value="Burial Chamber or Dolmen">
+            Burial Chamber or Dolmen
+          </option>
+          <option value="Cave or Rock Shelter">Cave or Rock Shelter</option>
+          <option value="Cairn">Cairn</option>
+        </select>
+        <select
+          className="button-50"
+          onChange={(event) => setRegion(event.target.value)}
+          name=""
+          id=""
+          value={region}
+        >
+          <option disabled value="-1">
+            Select Region
+          </option>
+          <option value="-1">All</option>
+          <option value="Occitania">Occitania</option>
+          <option value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</option>
+          <option value="Corsica">Corsica</option>
+          <option value="Provence-Alpes-Côte d'Azur">
+            Provence-Alpes-Côte d&apos;Azur
+          </option>
+          <option value="Ile-de-France">Ile-de-France</option>
+          <option value="Normandy">Normandy</option>
+          <option value="Navarre">Navarre</option>
+          <option value="Brittany">Brittany</option>
+          <option value="Hauts-de-France">Hauts-de-France</option>
+          <option value="Grand Est">Grand Est</option>
+          <option value="Centre-Val de Loire">Centre-Val de Loire</option>
+          <option value="Auvergne-Rhône-Alpes">Auvergne-Rhône-Alpes</option>
+          <option value="Pays de la Loire">Pays de la Loire</option>
+          <option value="Bourgogne-Franche-Comté">
+            Bourgogne-Franche-Comté
+          </option>
+        </select>
+        <button onClick={() => setAddToggle(!addToggle)}>add</button>
+        {addToggle ? (
+          <form onSubmit={(event) => addMegalith(event)}>
+            <label>Name</label>
+            <input
+              type="text"
+              onChange={(event) => setName(event.target.value)}
+            />
+            <label>Type</label>
+            <input
+              type="text"
+              onChange={(event) => setTypeForm(event.target.value)}
+            />
+            <label>Village</label>
+            <input
+              type="text"
+              onChange={(event) => setVillage(event.target.value)}
+            />
+            <label>Description</label>
+            <label>Region</label>
+            <input
+              type="text"
+              onChange={(event) => setState(event.target.value)}
+            />
+            <label>Description</label>
+            <input
+              type="text"
+              onChange={(event) => setDescription(event.target.value)}
+            />
+
+            <button type="submit">submit</button>
+          </form>
+        ) : null}
       </div>
       <div
         style={{
@@ -72,19 +192,16 @@ function MapComponent() {
         }}
       >
         <MapContainer
-          center={[48, 0.6]}
+          center={[46.52, 2.43]}
           zoom={5}
           style={{
             height: "100%",
             width: "100%",
           }}
         >
-          <AddMarkerOnClick />
           <TileLayer
-            url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=1be55fa830ae4fc782b198c32056911f
-
-          "
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+            attribution='Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
           />
 
           {markers.map((marker, index) => (

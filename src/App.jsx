@@ -10,6 +10,7 @@ import CreditPage from "./Pages/CreditPage";
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import SideBar from "./Components/SideBar/SideBar";
+import DetailsPage from "./Pages/DetailsPage";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +29,8 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/credits" element={<CreditPage />} />
         <Route path="/list" element={<ListPage />} />
+        <Route path="/list/:id" element={<DetailsPage />} />
+
         <Route path="/" element={<HomePage />} />
       </Routes>
       <Footer />
