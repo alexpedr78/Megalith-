@@ -193,7 +193,7 @@ function ListPage() {
                 className="button-55"
                 onClick={() => handleDelete(site.id)}
               >
-                delete
+                Delete
               </button>
 
               {/* ///////////////////////////////////////////////////// */}

@@ -1,10 +1,10 @@
 .ListPage {
-  padding-top: 1rem;
-  background-color: aquamarine;
+  /* padding-top: 10px; */
+  background-color: #f8f4ec;
   & button {
-    background-color: #000;
+    background-color: #8b8484;
     background-image: none;
-    border: 1px solid #000;
+    border: 1px solid #8b8484;
     border-radius: 4px;
     box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
     box-sizing: border-box;
@@ -50,13 +50,14 @@
   justify-content: space-evenly;
 }
 .megalithItem {
-  background-color: #000;
+  /* background-color: #000; */
+  background: linear-gradient(90deg, rgba(184, 163, 58, 1) 91%);
   background-image: none;
   border: 1px solid #000;
   border-radius: 4px;
   box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
   box-sizing: border-box;
-  color: #fff;
+  color: #8b8484;
   cursor: pointer;
   display: inline-block;
   font-family: ITCAvantGardeStd-Bk, Arial, sans-serif;
