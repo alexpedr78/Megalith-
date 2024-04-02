@@ -10,6 +10,8 @@ function ListPage() {
   const [megalith, setMegalith] = useState([]);
   const [site, setSite] = useState("");
   const [selectValue, setSelectValue] = useState("-1");
+  const [selectValueRegion, setSelectValueRegion] = useState("-1");
+  const [updatedMegalith, setUpdatedMegalith] = useState({});
   const [timeOutId, setTimeOutid] = useState(null);
   const [editId, setEditId] = useState(null); // Track which megalith is being edited
   const [updatedName, setUpdatedName] = useState("");
@@ -24,9 +26,13 @@ function ListPage() {
       if (selectValue !== "-1") {
         searchParams += `&type=${selectValue}`;
       }
+      if (selectValueRegion !== "-1") {
+        searchParams += `&state=${selectValueRegion}`;
+      }
       // if(selectDepartements !== -1){
       //   searchParams
       // }
+      console.log(searchParams);
       const response = await axios.get(url + searchParams);
       setMegalith(response.data);
     } catch (error) {
@@ -34,9 +40,10 @@ function ListPage() {
     }
   }
 
-  async function handleUpdate(id, updatedData) {
+  async function handleUpdate(id, updatedMegalith) {
     try {
-      await axios.put(`${url}/megalith/${id}`, updatedData);
+      await axios.put(`${url}/megalith/${id}`, updatedMegalith);
+
       setEditId(null); // Clear the edit state
       displayMegalith(); // Refresh the megalith list
     } catch (error) {
@@ -46,6 +53,11 @@ function ListPage() {
   function handleSelectChange(event) {
     const { value } = event.target;
     setSelectValue(value);
+  }
+  function handleSelectChangeRegion(event) {
+    const { value } = event.target;
+    console.log(value);
+    setSelectValueRegion(value);
   }
 
   function handleEdit(id) {
@@ -68,7 +80,7 @@ function ListPage() {
 
   useEffect(() => {
     displayMegalith();
-  }, [site, currentPage, selectValue]);
+  }, [site, currentPage, selectValue, selectValueRegion]);
 
   function handleChange(event) {
     if (timeOutId) {
@@ -95,10 +107,33 @@ function ListPage() {
             value={selectValue}
           >
             <option disabled value="-1">
-              select
+              Select a Category
             </option>
             <option value="-1">All</option>
             <option value="Stone Circle">Stone Circle</option>
+            <option value="Standing Stone (Menhir)">
+              Standing Stone (Menhir)
+            </option>
+            <option value="Burial Chamber or Dolmen">
+              Burial Chamber or Dolmen
+            </option>
+            <option value="Cave or Rock Shelter">Cave or Rock Shelter</option>
+            <option value="Cairn">Cairn</option>
+          </select>
+        </div>
+        <div>
+          <select
+            className="button-50"
+            onChange={handleSelectChangeRegion}
+            name=""
+            id=""
+            value={selectValueRegion}
+          >
+            <option disabled value="-1">
+              Select Region
+            </option>
+            <option value="-1">All</option>
+            <option value="Occitania">Occitania</option>
             <option value="Standing Stone (Menhir)">
               Standing Stone (Menhir)
             </option>
@@ -125,7 +160,7 @@ function ListPage() {
             <article className="megalithItem" key={site.id}>
               <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
               <p>{site.type ? `Category of the site : ${site.type}` : null}</p>
-              <p>{site.state ? `Department : ${site.state}` : null}</p>
+              <p>{site.state ? `Region : ${site.state}` : null}</p>
               <p>{site.village ? `Village : ${site.village}` : null}</p>
               <p>
                 {site.description ? `description : ${site.description}` : null}
@@ -163,19 +198,38 @@ function ListPage() {
                     placeholder={site.description ? `${site.description}` : ""}
                   />
                   <button
-                    className=".button-55"
-                    onClick={() => handleUpdate(site.id)}
+                    className="button-55"
+                    onClick={() => {
+                      handleUpdate(site.id, {
+                        id: site.id,
+                        state: site.state,
+                        type: site.type,
+                        name: updatedName,
+                        description: updateDescription,
+                        position: {
+                          long: site.position.long,
+                          lat: site.position.lat,
+                        },
+                      });
+                      setUpdatedName(""); // Reset updated name
+                      setUpdatedDescription(""); // Reset updated description
+                    }}
                   >
                     Save
                   </button>
-                  <button className=".button-55" onClick={handleCancelEdit}>
-                    Cancel
-                  </button>
+                  <button
+                    className="button-55"
+                    onClick={() => {
+                      handleCancelEdit();
+                      setUpdatedName(""); // Reset updated name
+                      setUpdatedDescription("");
+                    }}
+                  ></button>
                 </div>
               ) : (
                 <div>
                   <button
-                    className=".button-55"
+                    className="button-55"
                     onClick={() => handleEdit(site.id, site.name)}
                   >
                     Update
