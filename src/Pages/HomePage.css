@@ -1,0 +1,23 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.container img {
+  max-width: 100%;
+  max-height: 500px;
+  /*height: auto;*/
+  /* display: block;*/
+  /*margin: 0 auto;*/
+  object-position: center;
+  box-shadow: 0 0 10 px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.container p {
+  margin-top: 20px;
+  color: #333;
+}
