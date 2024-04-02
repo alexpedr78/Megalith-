@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import "./ListPage.css";
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 const url = "https://project-management-first-try.adaptable.app";
 
 function ListPage() {
@@ -11,12 +11,12 @@ function ListPage() {
   const [site, setSite] = useState("");
   const [selectValue, setSelectValue] = useState("-1");
   const [selectValueRegion, setSelectValueRegion] = useState("-1");
-  const [updatedMegalith, setUpdatedMegalith] = useState({});
+
   const [timeOutId, setTimeOutid] = useState(null);
   const [editId, setEditId] = useState(null); // Track which megalith is being edited
   const [updatedName, setUpdatedName] = useState("");
   const [updateDescription, setUpdatedDescription] = useState("");
-
+  // const [totalpage, setTotalPage] = useState();
   async function displayMegalith() {
     try {
       let searchParams = `/megalith?_limit=25&_page=${currentPage}`;
@@ -29,12 +29,12 @@ function ListPage() {
       if (selectValueRegion !== "-1") {
         searchParams += `&state=${selectValueRegion}`;
       }
-      // if(selectDepartements !== -1){
-      //   searchParams
-      // }
-      console.log(searchParams);
+
       const response = await axios.get(url + searchParams);
+      console.log(response);
       setMegalith(response.data);
+
+      // setTotalPage(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +93,12 @@ function ListPage() {
 
     setTimeOutid(id);
   }
-
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: for smooth scrolling behavior
+    });
+  }
   return (
     <div className="ListPage">
       <div className="buttonContainer">
@@ -134,14 +139,23 @@ function ListPage() {
             </option>
             <option value="-1">All</option>
             <option value="Occitania">Occitania</option>
-            <option value="Standing Stone (Menhir)">
-              Standing Stone (Menhir)
+            <option value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</option>
+            <option value="Corsica">Corsica</option>
+            <option value="Provence-Alpes-Côte d'Azur">
+              Provence-Alpes-Côte d&apos;Azur
             </option>
-            <option value="Burial Chamber or Dolmen">
-              Burial Chamber or Dolmen
+            <option value="Ile-de-France">Ile-de-France</option>
+            <option value="Normandy">Normandy</option>
+            <option value="Navarre">Navarre</option>
+            <option value="Brittany">Brittany</option>
+            <option value="Hauts-de-France">Hauts-de-France</option>
+            <option value="Grand Est">Grand Est</option>
+            <option value="Centre-Val de Loire">Centre-Val de Loire</option>
+            <option value="Auvergne-Rhône-Alpes">Auvergne-Rhône-Alpes</option>
+            <option value="Pays de la Loire">Pays de la Loire</option>
+            <option value="Bourgogne-Franche-Comté">
+              Bourgogne-Franche-Comté
             </option>
-            <option value="Cave or Rock Shelter">Cave or Rock Shelter</option>
-            <option value="Cairn">Cairn</option>
           </select>
         </div>
         <div className="searchBarListPage">
@@ -158,7 +172,9 @@ function ListPage() {
         {megalith.map((site) => {
           return (
             <article className="megalithItem" key={site.id}>
-              <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
+              <Link to={`/list/${site.id}`}>
+                <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
+              </Link>
               <p>{site.type ? `Category of the site : ${site.type}` : null}</p>
               <p>{site.state ? `Region : ${site.state}` : null}</p>
               <p>{site.village ? `Village : ${site.village}` : null}</p>
@@ -181,7 +197,7 @@ function ListPage() {
               </button>
 
               {/* ///////////////////////////////////////////////////// */}
-              {editId === site.id ? ( // Conditionally render form for editing
+              {editId === site.id ? (
                 <div>
                   <input
                     className="button-55"
@@ -205,6 +221,7 @@ function ListPage() {
                         state: site.state,
                         type: site.type,
                         name: updatedName,
+                        village: site.village,
                         description: updateDescription,
                         position: {
                           long: site.position.long,
@@ -255,8 +272,12 @@ function ListPage() {
           onClick={() => {
             setCurrentPage((prev) => prev + 1);
           }}
+          // disabled={currentPage === totalpage}
         >
           Next
+        </button>
+        <button className="scrollToTopButton" onClick={scrollToTop}>
+          Scroll To Top
         </button>
       </div>
       <p>{currentPage}</p>
