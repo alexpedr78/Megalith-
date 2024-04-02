@@ -5,14 +5,14 @@ function AboutPage() {
     <div>
       <h2>About Megaliths</h2>
       <div>
-        <p>
+        <article className="display: table-column; ">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
           itaque excepturi voluptatem natus earum! Pariatur dicta consectetur
           eveniet sed sint enim quo eaque. Similique obcaecati alias illum,
           quas, error rem fuga officiis vel quos nobis excepturi, minus non
           doloremque laborum perspiciatis et voluptates placeat ipsum officia
           suscipit possimus doloribus. Recusandae!
-        </p>
+        </article>
       </div>
       <div className="video-container">
         <iframe

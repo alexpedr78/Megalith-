@@ -19,7 +19,10 @@
   height: 4rem;
 }
 h3 {
-  font-family: "Garamond", "Palatino", serif;
+  font-family: "MedievalSharp", cursive;
+  font-weight: 600;
+  font-size: 28px;
+  font-style: normal;
   text-align: center;
 }
 .logo {

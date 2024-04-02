@@ -12,6 +12,10 @@ function NavBar({ toggleSidebar }) {
       </div>
       <div>
         <h3>MEGALITH</h3>
+        <style>
+          @import
+          url('https://fonts.googleapis.com/css2?family=Englebert&family=MedievalSharp&display=swap')
+        </style>
       </div>
     </div>
   );
