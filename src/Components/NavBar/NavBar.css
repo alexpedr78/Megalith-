@@ -1,6 +1,6 @@
 .navbar {
   /* background-color: #3b5f58; */
-  background: rgb(22, 65, 24);
+  /* background: rgb(22, 65, 24); */
   background: linear-gradient(
     90deg,
     rgba(22, 65, 24, 1) 42%,
@@ -9,7 +9,7 @@
   width: 100%;
   padding: 0px 15px;
   display: flex;
-  color: white;
+  color: #f8f4ec;
   text-align: left;
   position: sticky;
   top: 0px;
