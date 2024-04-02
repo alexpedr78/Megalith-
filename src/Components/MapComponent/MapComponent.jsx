@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
-import MarkerClusterGroup from "react-leaflet-markercluster";
+// import MarkerClusterGroup from "react-leaflet-markercluster";
 const url = "https://project-management-first-try.adaptable.app";
 
 function MapComponent() {
@@ -21,8 +21,8 @@ function MapComponent() {
       console.log(response);
       let megalithArray = response.data.map((elem) => ({
         name: elem.name,
-        // state: elem.state,
-        // village : elem.village,
+        state: elem.state,
+        village: elem.village,
         description: elem.description,
         position: { lat: elem.position.lat, long: elem.position.long },
       }));
@@ -48,6 +48,7 @@ function MapComponent() {
 
     return null;
   };
+  function handleCategory() {}
 
   const updatePopupContent = (index, content) => {
     const updatedMarkers = [...markers];
@@ -57,54 +58,70 @@ function MapComponent() {
   };
 
   return (
-    <div style={{ height: "400px", width: "400px" }}>
-      <MapContainer
-        center={[48, 0.6]}
-        zoom={5}
-        style={{ height: "100%", width: "100%" }}
+    <div>
+      <div>
+        <button onChange={handleCategory}>selct catgoiry</button>
+      </div>
+      <div
+        style={{
+          height: "400px",
+          width: "400px",
+          margin: "auto",
+          top: "7rem",
+          position: "sticky",
+        }}
       >
-        <AddMarkerOnClick />
-        <TileLayer
-          url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=1be55fa830ae4fc782b198c32056911f
+        <MapContainer
+          center={[48, 0.6]}
+          zoom={5}
+          style={{
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <AddMarkerOnClick />
+          <TileLayer
+            url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=1be55fa830ae4fc782b198c32056911f
 
           "
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
 
-        {markers.map((marker, index) => (
-          <Marker
-            key={index}
-            position={[marker.position.lat, marker.position.long]}
-          >
-            <Popup>
-              <div>
-                <label>Name of the site:</label>
-                <input
-                  type="text"
-                  value={marker.name}
-                  placeholder={marker.name}
-                  onChange={(e) =>
-                    updatePopupContent(
-                      index,
-                      e.target.value,
-                      marker.description
-                    )
-                  }
-                />
-              </div>
-              <div>
-                <label>Description:</label>
-                <textarea
-                  value={marker.description}
-                  onChange={(e) =>
-                    updatePopupContent(index, marker.name, e.target.value)
-                  }
-                />
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+          {markers.map((marker, index) => (
+            <Marker
+              key={index}
+              position={[marker.position.lat, marker.position.long]}
+            >
+              <Popup>
+                <div>
+                  <label>Name of the site:</label>
+                  <input
+                    type="text"
+                    value={marker.name}
+                    placeholder={marker.name}
+                    onChange={(e) =>
+                      updatePopupContent(
+                        index,
+                        e.target.value,
+                        marker.description
+                      )
+                    }
+                  />
+                </div>
+                <div>
+                  <label>Description:</label>
+                  <textarea
+                    value={marker.description}
+                    onChange={(e) =>
+                      updatePopupContent(index, marker.name, e.target.value)
+                    }
+                  />
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 }
