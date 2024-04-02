@@ -1,7 +1,7 @@
 import MapComponent from "../Components/MapComponent/MapComponent";
 import "./MapPage.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
+//import { useEffect, useState } from "react";
+//import axios from "axios";
 import {
   MapContainer,
   TileLayer,

@@ -1,5 +1,6 @@
 import "./NavBar.css";
 import logo from "../../assets/menhir.png";
+import PropTypes from "prop-types";
 
 function NavBar({ toggleSidebar }) {
   return (
@@ -15,5 +16,7 @@ function NavBar({ toggleSidebar }) {
     </div>
   );
 }
-
+NavBar.propTypes = {
+  toggleSidebar: PropTypes.func.isRequired,
+};
 export default NavBar;

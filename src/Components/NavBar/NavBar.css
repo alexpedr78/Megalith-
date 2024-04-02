@@ -1,5 +1,11 @@
 .navbar {
-  background-color: #3b5f58;
+  /* background-color: #3b5f58; */
+  background: rgb(22, 65, 24);
+  background: linear-gradient(
+    90deg,
+    rgba(22, 65, 24, 1) 42%,
+    rgba(184, 163, 58, 1) 91%
+  );
   width: 100%;
   padding: 0px 15px;
   display: flex;
