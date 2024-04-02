@@ -3,6 +3,7 @@ import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
+import MarkerClusterGroup from "react-leaflet-cluster";
 // import MarkerClusterGroup from "react-leaflet-markercluster";
 let url = "https://project-management-first-try.adaptable.app/megalith?";
 
@@ -20,9 +21,9 @@ function MapComponent() {
     if (type !== "-1") {
       params.push(`type=${type}`);
     }
-    if (type === "-1" && region === "-1") {
-      return;
-    }
+    // if (type === "-1" && region === "-1") {
+    //   return;
+    // }
 
     console.log(type);
     console.log(`Region:${region}`);
@@ -203,40 +204,41 @@ function MapComponent() {
             url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
             attribution='Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
           />
-
-          {markers.map((marker, index) => (
-            <Marker
-              key={index}
-              position={[marker.position.lat, marker.position.long]}
-            >
-              <Popup>
-                <div>
-                  <label>Name of the site:</label>
-                  <input
-                    type="text"
-                    value={marker.name}
-                    placeholder={marker.name}
-                    onChange={(e) =>
-                      updatePopupContent(
-                        index,
-                        e.target.value,
-                        marker.description
-                      )
-                    }
-                  />
-                </div>
-                <div>
-                  <label>Description:</label>
-                  <textarea
-                    value={marker.description}
-                    onChange={(e) =>
-                      updatePopupContent(index, marker.name, e.target.value)
-                    }
-                  />
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+          <MarkerClusterGroup>
+            {markers.map((marker, index) => (
+              <Marker
+                key={index}
+                position={[marker.position.lat, marker.position.long]}
+              >
+                <Popup>
+                  <div>
+                    <label>Name of the site:</label>
+                    <input
+                      type="text"
+                      value={marker.name}
+                      placeholder={marker.name}
+                      onChange={(e) =>
+                        updatePopupContent(
+                          index,
+                          e.target.value,
+                          marker.description
+                        )
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label>Description:</label>
+                    <textarea
+                      value={marker.description}
+                      onChange={(e) =>
+                        updatePopupContent(index, marker.name, e.target.value)
+                      }
+                    />
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
         </MapContainer>
       </div>
     </div>
