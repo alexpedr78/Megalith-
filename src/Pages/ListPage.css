@@ -49,6 +49,9 @@
   gap: 3rem;
   justify-content: space-evenly;
 }
+.buttonInsideEdit {
+  display: flex;
+}
 .megalithItem {
   /* background-color: #000; */
   background: linear-gradient(90deg, rgba(184, 163, 58, 1) 91%);

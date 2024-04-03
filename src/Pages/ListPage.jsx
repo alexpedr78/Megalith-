@@ -4,6 +4,7 @@ import "./ListPage.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 const url = "https://project-management-first-try.adaptable.app";
+import MapComponent from "../Components/MapComponent/MapComponent";
 
 function ListPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -172,22 +173,29 @@ function ListPage() {
         {megalith.map((site) => {
           return (
             <article className="megalithItem" key={site.id}>
-              <Link to={`/list/${site.id}`}>
-                <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
-              </Link>
-              <p>{site.type ? `Category of the site : ${site.type}` : null}</p>
-              <p>{site.state ? `Region : ${site.state}` : null}</p>
-              <p>{site.village ? `Village : ${site.village}` : null}</p>
-              <p>
-                {site.description ? `description : ${site.description}` : null}
-              </p>
-              <p>
-                {site.position
-                  ? `Position of the site : (${
-                      site.position.lat ? site.position.lat : "N/A"
-                    }, ${site.position.long ? site.position.long : "N/A"})`
-                  : null}
-              </p>
+              <div>
+                <Link to={`/list/${site.id}`}>
+                  <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
+                </Link>
+                <p>
+                  {site.type ? `Category of the site : ${site.type}` : null}
+                </p>
+                <p>{site.state ? `Region : ${site.state}` : null}</p>
+                <p>{site.village ? `Village : ${site.village}` : null}</p>
+                <p>
+                  {site.description
+                    ? `description : ${site.description}`
+                    : null}
+                </p>
+                <p>
+                  {site.position
+                    ? `Position of the site : (${
+                        site.position.lat ? site.position.lat : "N/A"
+                      }, ${site.position.long ? site.position.long : "N/A"})`
+                    : null}
+                </p>
+              </div>
+              <div>{/* <MapComponent /> */}</div>
 
               <button
                 className="button-55"
@@ -213,35 +221,37 @@ function ListPage() {
                     onChange={(e) => setUpdatedDescription(e.target.value)}
                     placeholder={site.description ? `${site.description}` : ""}
                   />
-                  <button
-                    className="button-55"
-                    onClick={() => {
-                      handleUpdate(site.id, {
-                        id: site.id,
-                        state: site.state,
-                        type: site.type,
-                        name: updatedName,
-                        village: site.village,
-                        description: updateDescription,
-                        position: {
-                          long: site.position.long,
-                          lat: site.position.lat,
-                        },
-                      });
-                      setUpdatedName(""); // Reset updated name
-                      setUpdatedDescription(""); // Reset updated description
-                    }}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="button-55"
-                    onClick={() => {
-                      handleCancelEdit();
-                      setUpdatedName(""); // Reset updated name
-                      setUpdatedDescription("");
-                    }}
-                  ></button>
+                  <div className="buttonInsideEdit">
+                    <button
+                      className="button-55"
+                      onClick={() => {
+                        handleUpdate(site.id, {
+                          id: site.id,
+                          state: site.state,
+                          type: site.type,
+                          name: updatedName,
+                          village: site.village,
+                          description: updateDescription,
+                          position: {
+                            long: site.position.long,
+                            lat: site.position.lat,
+                          },
+                        });
+                        setUpdatedName(""); // Reset updated name
+                        setUpdatedDescription(""); // Reset updated description
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="button-55"
+                      onClick={() => {
+                        handleCancelEdit();
+                        setUpdatedName(""); // Reset updated name
+                        setUpdatedDescription("");
+                      }}
+                    ></button>
+                  </div>
                 </div>
               ) : (
                 <div>
