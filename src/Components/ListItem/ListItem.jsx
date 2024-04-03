@@ -1,6 +1,4 @@
 import "./ListItem.css";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import OneMegaMap from "../OneMegaMap/OneMegaMap";
 import { useState } from "react";
 function ListItem({
@@ -21,9 +19,8 @@ function ListItem({
   return (
     <article className="megalithItem" key={id}>
       <div>
-        <Link to={`/list/${id}`}>
-          <p>{name ? `Name of the site : ${name}` : null}</p>
-        </Link>
+        <p>{name ? `Name of the site : ${name}` : null}</p>
+
         <p>{type ? `Category of the site : ${type}` : null}</p>
         <p>{state ? `Region : ${state}` : null}</p>
         <p>{village ? `Village : ${village}` : null}</p>
@@ -109,29 +106,4 @@ function ListItem({
     </article>
   );
 }
-ListItem.propTypes = {
-  site: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    state: PropTypes.string,
-    type: PropTypes.string,
-    name: PropTypes.string,
-    village: PropTypes.string,
-    description: PropTypes.string,
-    position: PropTypes.shape({
-      long: PropTypes.number,
-      lat: PropTypes.number,
-    }),
-  }).isRequired,
-  map: PropTypes.bool.isRequired,
-  setMap: PropTypes.func.isRequired,
-  updateDescription: PropTypes.func.isRequired,
-  setUpdatedDescription: PropTypes.func.isRequired,
-  updatedName: PropTypes.string.isRequired,
-  setUpdatedName: PropTypes.func.isRequired,
-  handleCancelEdit: PropTypes.func.isRequired,
-  handleEdit: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  handleUpdate: PropTypes.func.isRequired,
-  editId: PropTypes.number,
-};
 export default ListItem;

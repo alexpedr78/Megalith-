@@ -46,10 +46,12 @@ function ListPage() {
       console.log(error);
     }
   }
+
   function handleSelectChange(event) {
     const { value } = event.target;
     setSelectValue(value);
   }
+
   function handleSelectChangeRegion(event) {
     const { value } = event.target;
     console.log(value);
@@ -63,6 +65,7 @@ function ListPage() {
   function handleCancelEdit() {
     setEditId(null); // Clear the edit state
   }
+
   async function handleDelete(id) {
     try {
       await axios.delete(`${url}/megalith/${id}`);
@@ -78,7 +81,7 @@ function ListPage() {
     displayMegalith();
   }, [site, currentPage, selectValue, selectValueRegion]);
 
-  function handleChange(event) {
+  function handleChangeSearchBar(event) {
     if (timeOutId) {
       clearTimeout(timeOutId);
     }
@@ -89,6 +92,7 @@ function ListPage() {
 
     setTimeOutid(id);
   }
+
   function scrollToTop() {
     window.scrollTo({
       top: 0,
@@ -122,7 +126,7 @@ function ListPage() {
             <option value="Cairn">Cairn</option>
           </select>
         </div>
-        <div>
+        <div className="selectRegionListPage">
           <select
             className="button-50"
             onChange={handleSelectChangeRegion}
@@ -158,12 +162,11 @@ function ListPage() {
           <input
             className="button-50"
             type="text"
-            onChange={(event) => handleChange(event)}
+            onChange={(event) => handleChangeSearchBar(event)}
             placeholder="Search by name"
           />
         </div>
       </div>
-      <div className="ContainerInputListPage"></div>
       <div className="ListItemContainer">
         {megalith.map((site) => {
           return (
@@ -184,8 +187,7 @@ function ListPage() {
           );
         })}
       </div>
-      {/* ///////////////////////////// */}
-      <div className="buttonListPage">
+      <div className="buttonsListPage">
         <button
           onClick={() => {
             setCurrentPage(currentPage - 1);
@@ -194,6 +196,7 @@ function ListPage() {
         >
           Previous
         </button>
+
         <button
           onClick={() => {
             setCurrentPage((prev) => prev + 1);
@@ -201,12 +204,12 @@ function ListPage() {
         >
           Next
         </button>
+
         <button className="scrollToTopButton" onClick={scrollToTop}>
           Scroll To Top
         </button>
       </div>
       <p>{currentPage}</p>
-      {/* /////////////////// */}
     </div>
   );
 }
