@@ -11,6 +11,7 @@ import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import SideBar from "./Components/SideBar/SideBar";
 import DetailsPage from "./Pages/DetailsPage";
+//import { ThemeProvider } from "./Components/Theme/ThemeContext";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +21,7 @@ function App() {
     setIsOpen(!isOpen);
   };
   return (
+    // <ThemeProvider>
     <div>
       <NavBar toggleSidebar={toggleSidebar} />
       <SideBar isOpen={isOpen} />
@@ -30,11 +32,11 @@ function App() {
         <Route path="/credits" element={<CreditPage />} />
         <Route path="/list" element={<ListPage />} />
         <Route path="/list/:id" element={<DetailsPage />} />
-
         <Route path="/" element={<HomePage />} />
       </Routes>
       <Footer />
     </div>
+    //</ThemeProvider>
   );
 }
 
