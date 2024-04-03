@@ -1,10 +1,9 @@
 import "./DetailsPage.css";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import MapComponent from "../Components/MapComponent/MapComponent";
+import OneMegaMap from "../../Components/OneMegaMap/OneMegaMap";
 function DetailsPage() {
   const { id } = useParams();
   const [oneMega, setOneMega] = useState(null);
@@ -40,30 +39,7 @@ function DetailsPage() {
           long: {oneMega.position.long}
         </p>
       </div>
-      <MapComponent />
-      {/* <MapContainer
-        center={[46.52, 2.43]}
-        zoom={5}
-        style={{
-          height: "400px",
-          width: "400px",
-        }}
-      > */}
-      {/* <AddMarkerOnClick />
-        <TileLayer
-          url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-          attribution='Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-        />
-        {oneMega.position && (
-          <Marker
-            position={[oneMega.position.lat || 0, oneMega.position.long || 0]}
-          >
-            <Popup>
-              <h1>test</h1>
-            </Popup>
-          </Marker>
-        )}
-      </MapContainer> */}
+      <OneMegaMap id={id} oneMega={oneMega} />
     </div>
   );
 }

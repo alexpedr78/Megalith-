@@ -4,8 +4,10 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
-// import MarkerClusterGroup from "react-leaflet-markercluster";
 let url = "https://project-management-first-try.adaptable.app/megalith?";
+import Addfavorite from "../AddFavorite/AddFavorite.jsx/Addfavorite";
+import PropTypes from "prop-types";
+import "./MapComponent.css";
 
 function MapComponent() {
   const [markers, setMarkers] = useState([]);
@@ -21,9 +23,12 @@ function MapComponent() {
     if (type !== "-1") {
       params.push(`type=${type}`);
     }
-    // if (type === "-1" && region === "-1") {
-    //   return;
-    // }
+    if (type === "-2" && region === "-2") {
+      params;
+    }
+    if (type === "-1" && region === "-1") {
+      return;
+    }
 
     console.log(type);
     console.log(`Region:${region}`);
@@ -94,10 +99,16 @@ function MapComponent() {
       }
     });
   };
+  const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const handleMarkerClick = (marker) => {
+    setSelectedMarker(marker);
+  };
 
   return (
     <div>
       <div className="mainMapPage">
+        <Addfavorite markerData={selectedMarker} />
         <select
           className="button-50"
           onChange={(event) => setType(event.target.value)}
@@ -108,7 +119,7 @@ function MapComponent() {
           <option disabled value="-1">
             Select a Category
           </option>
-          <option value="-1">All</option>
+          <option value="-2">All</option>
           <option value="Stone Circle">Stone Circle</option>
           <option value="Standing Stone (Menhir)">
             Standing Stone (Menhir)
@@ -129,7 +140,7 @@ function MapComponent() {
           <option disabled value="-1">
             Select Region
           </option>
-          <option value="-1">All</option>
+          <option value="-2">All</option>
           <option value="Occitania">Occitania</option>
           <option value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</option>
           <option value="Corsica">Corsica</option>
@@ -149,7 +160,9 @@ function MapComponent() {
             Bourgogne-Franche-Comté
           </option>
         </select>
-        <button onClick={() => setAddToggle(!addToggle)}>add</button>
+        <button className="button-50" onClick={() => setAddToggle(!addToggle)}>
+          add
+        </button>
         {addToggle ? (
           <form onSubmit={(event) => addMegalith(event)}>
             <label>Name</label>
@@ -209,6 +222,7 @@ function MapComponent() {
               <Marker
                 key={index}
                 position={[marker.position.lat, marker.position.long]}
+                eventHandlers={{ click: () => handleMarkerClick(marker) }}
               >
                 <Popup>
                   <div>
@@ -244,5 +258,18 @@ function MapComponent() {
     </div>
   );
 }
-
+MapComponent.propTypes = {
+  markerData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    state: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    village: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    position: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      long: PropTypes.number.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 export default MapComponent;
