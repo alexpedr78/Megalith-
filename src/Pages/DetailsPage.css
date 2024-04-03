@@ -1,0 +1,7 @@
+.detailPageDivContainer {
+  display: flex;
+}
+.descriptionPtagsDetailsPage {
+  align-self: center;
+  width: 50%;
+}

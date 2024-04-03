@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import MapComponent from "../Components/MapComponent/MapComponent";
 function DetailsPage() {
   const { id } = useParams();
   const [oneMega, setOneMega] = useState(null);
@@ -30,25 +30,26 @@ function DetailsPage() {
   }
   console.log(oneMega);
   return (
-    <div>
-      <p>Name: {oneMega.name}</p>
-      <p>Type: {oneMega.type}</p>
-      <p>State: {oneMega.state}</p>
-
-      <p>
-        Position: lat:{oneMega.position.lat}
-        long: {oneMega.position.long}
-      </p>
-
-      <MapContainer
+    <div className="detailPageDivContainer">
+      <div className="descriptionPtagsDetailsPage">
+        <p>Name: {oneMega.name}</p>
+        <p>Type: {oneMega.type}</p>
+        <p>State: {oneMega.state}</p>
+        <p>
+          Position: lat:{oneMega.position.lat}
+          long: {oneMega.position.long}
+        </p>
+      </div>
+      <MapComponent />
+      {/* <MapContainer
         center={[46.52, 2.43]}
         zoom={5}
         style={{
           height: "400px",
           width: "400px",
         }}
-      >
-        {/* <AddMarkerOnClick /> */}
+      > */}
+      {/* <AddMarkerOnClick />
         <TileLayer
           url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
           attribution='Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
@@ -62,7 +63,7 @@ function DetailsPage() {
             </Popup>
           </Marker>
         )}
-      </MapContainer>
+      </MapContainer> */}
     </div>
   );
 }
