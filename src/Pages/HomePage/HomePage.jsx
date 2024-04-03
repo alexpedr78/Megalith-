@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Loader from "../Components/Loader/Loader";
-import photo from "../assets/cercle.jpg";
+import Loader from "../../Components/Loader/Loader";
+import photo from "../../assets/cercle.jpg";
 import "./HomePage.css";
 function HomePage() {
   const [loading, setLoading] = useState(() => {

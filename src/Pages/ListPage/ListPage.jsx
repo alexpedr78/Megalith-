@@ -2,9 +2,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import "./ListPage.css";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 const url = "https://project-management-first-try.adaptable.app";
-import MapComponent from "../Components/MapComponent/MapComponent";
+import ListItem from "../../Components/ListItem/ListItem";
 
 function ListPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,12 +11,11 @@ function ListPage() {
   const [site, setSite] = useState("");
   const [selectValue, setSelectValue] = useState("-1");
   const [selectValueRegion, setSelectValueRegion] = useState("-1");
-
   const [timeOutId, setTimeOutid] = useState(null);
   const [editId, setEditId] = useState(null); // Track which megalith is being edited
   const [updatedName, setUpdatedName] = useState("");
   const [updateDescription, setUpdatedDescription] = useState("");
-  // const [totalpage, setTotalPage] = useState();
+
   async function displayMegalith() {
     try {
       let searchParams = `/megalith?_limit=25&_page=${currentPage}`;
@@ -32,10 +30,7 @@ function ListPage() {
       }
 
       const response = await axios.get(url + searchParams);
-      console.log(response);
       setMegalith(response.data);
-
-      // setTotalPage(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -172,99 +167,20 @@ function ListPage() {
       <div className="ListItemContainer">
         {megalith.map((site) => {
           return (
-            <article className="megalithItem" key={site.id}>
-              <div>
-                <Link to={`/list/${site.id}`}>
-                  <p>{site.name ? `Name of the site : ${site.name}` : null}</p>
-                </Link>
-                <p>
-                  {site.type ? `Category of the site : ${site.type}` : null}
-                </p>
-                <p>{site.state ? `Region : ${site.state}` : null}</p>
-                <p>{site.village ? `Village : ${site.village}` : null}</p>
-                <p>
-                  {site.description
-                    ? `description : ${site.description}`
-                    : null}
-                </p>
-                <p>
-                  {site.position
-                    ? `Position of the site : (${
-                        site.position.lat ? site.position.lat : "N/A"
-                      }, ${site.position.long ? site.position.long : "N/A"})`
-                    : null}
-                </p>
-              </div>
-              <div>{/* <MapComponent /> */}</div>
-
-              <button
-                className="button-55"
-                onClick={() => handleDelete(site.id)}
-              >
-                Delete
-              </button>
-
-              {/* ///////////////////////////////////////////////////// */}
-              {editId === site.id ? (
-                <div>
-                  <input
-                    className="button-55"
-                    type="text"
-                    value={updatedName}
-                    onChange={(e) => setUpdatedName(e.target.value)}
-                    placeholder={site.name}
-                  />
-                  <input
-                    className="button-55"
-                    type="text"
-                    value={updateDescription}
-                    onChange={(e) => setUpdatedDescription(e.target.value)}
-                    placeholder={site.description ? `${site.description}` : ""}
-                  />
-                  <div className="buttonInsideEdit">
-                    <button
-                      className="button-55"
-                      onClick={() => {
-                        handleUpdate(site.id, {
-                          id: site.id,
-                          state: site.state,
-                          type: site.type,
-                          name: updatedName,
-                          village: site.village,
-                          description: updateDescription,
-                          position: {
-                            long: site.position.long,
-                            lat: site.position.lat,
-                          },
-                        });
-                        setUpdatedName(""); // Reset updated name
-                        setUpdatedDescription(""); // Reset updated description
-                      }}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className="button-55"
-                      onClick={() => {
-                        handleCancelEdit();
-                        setUpdatedName(""); // Reset updated name
-                        setUpdatedDescription("");
-                      }}
-                    ></button>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    className="button-55"
-                    onClick={() => handleEdit(site.id, site.name)}
-                  >
-                    Update
-                  </button>
-                </div>
-              )}
-              {/* /////////////////// */}
-            </article>
+            <ListItem
+              key={site.id}
+              site={site}
+              handleCancelEdit={handleCancelEdit}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              setUpdatedName={setUpdatedName}
+              updatedName={updatedName}
+              setUpdatedDescription={setUpdatedDescription}
+              updateDescription={updateDescription}
+              editId={editId}
+              setEditId={setEditId}
+              handleUpdate={handleUpdate}
+            />
           );
         })}
       </div>
@@ -282,7 +198,6 @@ function ListPage() {
           onClick={() => {
             setCurrentPage((prev) => prev + 1);
           }}
-          // disabled={currentPage === totalpage}
         >
           Next
         </button>

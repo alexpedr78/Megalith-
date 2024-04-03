@@ -1,3 +1,4 @@
 .mainMapPage {
   display: flex;
+  flex-direction: column;
 }
