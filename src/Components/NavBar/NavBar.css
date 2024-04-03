@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap");
 .navbar {
   /* background-color: #3b5f58; */
   /* background: rgb(22, 65, 24); */
@@ -16,15 +15,15 @@
   position: sticky;
   top: 0px;
   justify-content: space-between;
-  z-index: 2;
+  z-index: 50000;
   align-items: center;
   height: 4rem;
 }
 h3 {
-  font-family: "MedievalSharp", cursive;
+  font-family: "MedievalSharp";
   font-weight: 600;
-  font-size: 28px;
   font-style: normal;
+
   text-align: center;
   text-decoration: dashed;
 }

@@ -2,7 +2,6 @@ import "./NavBar.css";
 import logo from "../../assets/menhir.png";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-//import ThemeToggle from "../ThemeToggle";
 
 function NavBar({ toggleSidebar }) {
   return (
@@ -19,13 +18,6 @@ function NavBar({ toggleSidebar }) {
           </Link>
         </h3>
       </div>
-      {/* <div className="theme-toggle">
-        <ThemeToggle />
-      </div> */}
-      <style>
-        @import
-        url('https://fonts.googleapis.com/css2?family=Englebert&family=MedievalSharp&display=swap');
-      </style>
     </div>
   );
 }
