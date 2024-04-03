@@ -1,45 +1,48 @@
-import React, { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./SideBar.css";
 import PropTypes from "prop-types";
 
-function SideBar({ isOpen }) {
-  const [linkClicked, setLinkClicked] = useState(false);
+function SideBar({ isOpen, setIsOpen }) {
+  // const [clickedOutside, setClickedOutside] = useState(false);
+  const ref = useRef(null);
 
-  // Fonction pour gérer le clic sur un lien
-  const handleLinkClick = () => {
-    setLinkClicked(true); // Met à jour l'état pour indiquer qu'un lien a été cliqué
-  };
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (event.target.className === "logo") {
+        return;
+      }
+      if (!ref.current.contains(event.target)) {
+        // console.log(event.target.className === "logo");
+        // console.log("outside");
+        setIsOpen(false);
+      }
+    }
 
-  // Redéfinit isOpen à false lorsque linkClicked devient true
-  if (linkClicked && isOpen) {
-    isOpen = false;
-  }
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [ref]);
 
   return (
-    <div className={`side-bar ${isOpen ? "open" : ""}`}>
-      <ul>
-        <li>
-          <Link to="/" onClick={handleLinkClick}>
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/map" onClick={handleLinkClick}>
-            Map
-          </Link>
-        </li>
-        <li>
-          <Link to="/list" onClick={handleLinkClick}>
-            List
-          </Link>
-        </li>
-        <li>
-          <Link to="/about" onClick={handleLinkClick}>
-            About
-          </Link>
-        </li>
-      </ul>
+    <div ref={ref} className={`side-bar ${isOpen ? "open" : ""}`}>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/map">Map</Link>
+          </li>
+          <li>
+            <Link to="/list">List</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

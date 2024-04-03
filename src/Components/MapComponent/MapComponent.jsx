@@ -258,6 +258,7 @@ function MapComponent() {
     </div>
   );
 }
+
 MapComponent.propTypes = {
   markerData: PropTypes.shape({
     id: PropTypes.string.isRequired,

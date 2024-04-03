@@ -12,6 +12,7 @@
 .side-bar.open {
   padding: 10px;
   transform: translateY(0);
+  top: 4rem;
 
   /* background-color: #3b5f58; */
   background: rgb(22, 65, 24);
@@ -45,44 +46,3 @@
 .side-bar.open .side-small {
   display: block;
 }
-
-/* 
-.side-bar {
-  width: 80px;
-  height: 200%;
-  color: black;
-  position: fixed;
-  text-align: center;
-  top: 0;
-  left: 0;
-  transition: transform 1s ease;
-  transform: translateX(-250px);
-}
-
-.side-bar.open {
-  transform: translateX(0);
-  background-color: hsl(0, 100%, 50%);
-}
-
-.side-bar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.side-bar li {
-  padding: 10px;
-}
-
-.side-bar li a {
-  color: black;
-  text-decoration: none;
-}
-
-.side-small {
-  display: none;
-}
-
-.side-bar.open .side-small {
-  display: block;
-} 
-*/

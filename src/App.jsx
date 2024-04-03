@@ -12,20 +12,16 @@ import Footer from "./Components/Footer/Footer";
 import SideBar from "./Components/SideBar/SideBar";
 import DetailsPage from "./Pages/DetailsPage/DetailsPage";
 
-//import { ThemeProvider } from "./Components/Theme/ThemeContext";
-
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleSidebar = () => {
     //console.log(isOpen);
     setIsOpen(!isOpen);
   };
   return (
-    // <ThemeProvider>
     <div>
       <NavBar toggleSidebar={toggleSidebar} />
-      <SideBar isOpen={isOpen} />
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <Routes>
         <Route path="/map" element={<MapPage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -37,7 +33,6 @@ function App() {
       </Routes>
       <Footer />
     </div>
-    //</ThemeProvider>
   );
 }
 
