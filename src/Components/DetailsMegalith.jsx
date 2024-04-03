@@ -1,19 +1,23 @@
-import "./DetailsPage.css";
+import "./DetailsMegalith.css";
+import PropTypes from "prop-types";
 import "leaflet/dist/leaflet.css";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+
 import axios from "axios";
-import OneMegaMap from "../../Components/OneMegaMap/OneMegaMap";
-function DetailsPage() {
-  const { id } = useParams();
+import OneMegaMap from "./OneMegaMap/OneMegaMap";
+
+function DetailsMegalith({ megalithId }) {
   const [oneMega, setOneMega] = useState(null);
+  console.log(megalithId);
 
   useEffect(() => {
     async function getOneMegalith(id) {
       try {
+        console.log(id);
         const response = await axios.get(
           `https://project-management-first-try.adaptable.app/megalith/${id}`
         );
+        console.log(response.data);
         setOneMega(response.data);
         console.log(response.data);
       } catch (error) {
@@ -21,8 +25,8 @@ function DetailsPage() {
       }
     }
 
-    getOneMegalith(id);
-  }, []);
+    getOneMegalith(megalithId);
+  }, [megalithId]);
 
   if (!oneMega) {
     return <p>loading</p>;
@@ -39,9 +43,11 @@ function DetailsPage() {
           long: {oneMega.position.long}
         </p>
       </div>
-      <OneMegaMap id={id} oneMega={oneMega} />
+      <OneMegaMap id={megalithId} oneMega={oneMega} />
     </div>
   );
 }
-
-export default DetailsPage;
+DetailsMegalith.propTypes = {
+  megalithId: PropTypes.number.isRequired,
+};
+export default DetailsMegalith;

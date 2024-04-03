@@ -1,10 +1,19 @@
 import axios from "axios";
-import PropTypes from "prop-types";
+
 import "./../AddFavorite.css";
-const AddFavoriteButton = ({ markerData }) => {
+const AddFavoriteButton = ({ id }) => {
+  console.log(id);
+  const favorite = {
+    id: 1,
+    megalithId: id,
+  };
+  console.log(id);
   const handleAddFavorite = async () => {
     try {
-      await axios.post("https://your-json-server-url/favorites", markerData);
+      await axios.get(
+        `https://project-management-first-try.adaptable.app/favorites/`,
+        favorite
+      );
       alert("Marker added to favorites!");
     } catch (error) {
       console.error("Error adding marker to favorites:", error);
@@ -18,13 +27,4 @@ const AddFavoriteButton = ({ markerData }) => {
   );
 };
 
-AddFavoriteButton.propTypes = {
-  markerData: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-    // Add more properties if needed
-  }).isRequired,
-};
 export default AddFavoriteButton;

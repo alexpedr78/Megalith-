@@ -5,15 +5,26 @@ import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
 let url = "https://project-management-first-try.adaptable.app/megalith?";
-import Addfavorite from "../AddFavorite/AddFavorite.jsx/Addfavorite";
-import PropTypes from "prop-types";
 import "./MapComponent.css";
+import DetailsMegalith from "../DetailsMegalith";
+import AddFavoriteButton from "../AddFavorite/AddFavorite.jsx/Addfavorite";
+import { marker } from "leaflet";
 
 function MapComponent() {
+  const [detail, setDetails] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [type, setType] = useState("-1");
   const [region, setRegion] = useState("-1");
   const [addToggle, setAddToggle] = useState(false);
+
+  const [name, setName] = useState("");
+  const [state, setState] = useState("");
+  const [typeForm, setTypeForm] = useState("");
+  const [description, setDescription] = useState("");
+  const [village, setVillage] = useState("");
+
+  const [selectedMarker, setSelectedMarker] = useState(1);
+
   async function displayMegalith() {
     let apiUrl = url;
     let params = [];
@@ -30,23 +41,22 @@ function MapComponent() {
       return;
     }
 
-    console.log(type);
-    console.log(`Region:${region}`);
     try {
       const response = await axios.get(apiUrl + params.join("&"));
-      console.log(response);
-      let megalithArray = response.data.map((elem) => ({
-        name: elem.name,
-        state: elem.state,
-        village: elem.village,
-        description: elem.description,
-        position: { lat: elem.position.lat, long: elem.position.long },
-      }));
-      setMarkers(megalithArray);
+      //let megalithArray = response.data.map((elem) => ({
+      //  name: elem.name,
+      // state: elem.state,
+      // village: elem.village,
+      //  description: elem.description,
+      //  position: { lat: elem.position.lat, long: elem.position.long },
+      //}));
+
+      setMarkers(response.data);
     } catch (error) {
       console.log(error);
     }
   }
+
   useEffect(() => {
     displayMegalith();
   }, [type, region]);
@@ -55,13 +65,7 @@ function MapComponent() {
     const updatedMarkers = [...markers];
     updatedMarkers[index].name = content;
     setMarkers(updatedMarkers);
-    console.log(markers);
   };
-  const [name, setName] = useState("");
-  const [state, setState] = useState("");
-  const [typeForm, setTypeForm] = useState("");
-  const [description, setDescription] = useState("");
-  const [village, setVillage] = useState("");
 
   const addMegalith = async (event) => {
     event.preventDefault();
@@ -99,16 +103,29 @@ function MapComponent() {
       }
     });
   };
-  const [selectedMarker, setSelectedMarker] = useState(null);
 
-  const handleMarkerClick = (marker) => {
-    setSelectedMarker(marker);
+  const handleMarkerClick = (markerId) => {
+    console.log(markerId);
+    if (!isNaN(markerId)) {
+      setSelectedMarker(markerId);
+      console.log(selectedMarker);
+    }
+  };
+  const handlePopupButtonClick = (id) => {
+    console.log(id);
+    setSelectedMarker(id);
+    setDetails(true);
   };
 
   return (
     <div>
+      {detail ? (
+        <div>
+          <DetailsMegalith megalithId={parseInt(selectedMarker)} />
+        </div>
+      ) : null}
       <div className="mainMapPage">
-        <Addfavorite markerData={selectedMarker} />
+        <AddFavoriteButton id={selectedMarker} />
         <select
           className="button-50"
           onChange={(event) => setType(event.target.value)}
@@ -220,23 +237,30 @@ function MapComponent() {
           <MarkerClusterGroup>
             {markers.map((marker, index) => (
               <Marker
-                key={index}
+                id={marker.id}
+                key={index + 1}
+                value={marker.id}
                 position={[marker.position.lat, marker.position.long]}
-                eventHandlers={{ click: () => handleMarkerClick(marker) }}
+                onClick={() => handleMarkerClick(marker.id)}
               >
                 <Popup>
                   <div>
-                    <label>Name of the site:</label>
+                    {marker.name}
+                    <button
+                      onClick={() => {
+                        console.log(marker);
+                        handlePopupButtonClick(marker.id);
+                      }}
+                    >
+                      GO !
+                    </button>
+                    {/* <label></label>
                     <input
                       type="text"
                       value={marker.name}
                       placeholder={marker.name}
                       onChange={(e) =>
-                        updatePopupContent(
-                          index,
-                          e.target.value,
-                          marker.description
-                        )
+                        updatePopupContent(index, e.target.value)
                       }
                     />
                   </div>
@@ -247,7 +271,7 @@ function MapComponent() {
                       onChange={(e) =>
                         updatePopupContent(index, marker.name, e.target.value)
                       }
-                    />
+                    /> */}
                   </div>
                 </Popup>
               </Marker>
@@ -258,18 +282,5 @@ function MapComponent() {
     </div>
   );
 }
-MapComponent.propTypes = {
-  markerData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    village: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    position: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      long: PropTypes.number.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
+
 export default MapComponent;
