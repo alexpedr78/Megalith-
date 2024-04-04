@@ -28,6 +28,8 @@
   }
 }
 .ListPage {
+  background-color: var(--background-color);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
 }
@@ -48,17 +50,20 @@
   flex-wrap: wrap;
   gap: 3rem;
   justify-content: space-evenly;
+  background-color: var(--dark-background);
 }
 .buttonInsideEdit {
   display: flex;
 }
 .megalithItem {
-  /* background-color: #000; */
-  background: linear-gradient(90deg, rgba(184, 163, 58, 1) 91%);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  background: linear-gradient(90deg, rgb(182, 170, 112) 91%);
   background-image: none;
   border: 1px solid #000;
   border-radius: 4px;
-  box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px; */
   box-sizing: border-box;
   color: #8b8484;
   cursor: pointer;
