@@ -5,7 +5,7 @@ import "react-leaflet-markercluster/dist/styles.min.css";
 // import Addfavorite from "../../Components/AddFavorite/AddFavorite.jsx/Addfavorite";
 function MapPage() {
   return (
-    <div>
+    <div className="MapPage">
       <MapComponent />
     </div>
   );

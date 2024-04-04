@@ -12,6 +12,7 @@ function ListItem({
   handleUpdate,
   editId,
 }) {
+  console.log(site);
   const [map, setMap] = useState(false);
   const { id, state, type, name, village, description, position } = site;
 
@@ -32,7 +33,11 @@ function ListItem({
                 }, ${position.long ? position.long : "N/A"})`
               : null}
           </p>
-          {/* {site.favorite ? <p>Favorite</p> : null} */}
+          {/* {site.favorites.length ? (
+            <p>
+              <img src="./../assets/favori" alt="" />
+            </p>
+          ) : null} */}
         </div>
 
         {map ? <OneMegaMap oneMega={site} /> : null}
@@ -47,20 +52,26 @@ function ListItem({
         </button>
         {editId === id ? (
           <div>
-            <input
-              className="button-55"
-              type="text"
-              value={updatedName}
-              onChange={(e) => setUpdatedName(e.target.value)}
-              placeholder={name}
-            />
-            <input
-              className="button-55"
-              type="text"
-              value={updateDescription}
-              onChange={(e) => setUpdatedDescription(e.target.value)}
-              placeholder={description ? `${description}` : ""}
-            />
+            <div>
+              <label htmlFor="">New Name</label>
+              <input
+                className="button-55"
+                type="text"
+                value={updatedName}
+                onChange={(e) => setUpdatedName(e.target.value)}
+                placeholder={name}
+              />
+            </div>
+            <div>
+              <label htmlFor="">New Description</label>
+              <input
+                className="button-55"
+                type="text"
+                value={updateDescription}
+                onChange={(e) => setUpdatedDescription(e.target.value)}
+                placeholder={description ? `${description}` : ""}
+              />
+            </div>
             <div className="buttonInsideEdit">
               <button
                 className="button-55"

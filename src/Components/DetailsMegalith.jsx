@@ -7,7 +7,7 @@ import axios from "axios";
 import OneMegaMap from "./OneMegaMap/OneMegaMap";
 import AddCommentsButton from "./AddCommentsButton/AddCommentsButton";
 
-function DetailsMegalith({ megalithId }) {
+function DetailsMegalith({ setDetails, detail, megalithId }) {
   const [oneMega, setOneMega] = useState(null);
   console.log(megalithId);
 
@@ -36,17 +36,19 @@ function DetailsMegalith({ megalithId }) {
   return (
     <div className="detailPageDivContainer">
       <div className="descriptionPtagsDetailsPage">
-        <p>Name: {oneMega.name}</p>
-        <p>Type: {oneMega.type}</p>
-        <p>State: {oneMega.state}</p>
-        <p>
-          Position: lat:{oneMega.position.lat}
-          long: {oneMega.position.long}
-        </p>
+        <p>Name of the site: {oneMega.name}</p>
+        <p>Type of the site: {oneMega.type}</p>
+        <p>City : {oneMega.village}</p>
+        <p>Region: {oneMega.state}</p>
+        <p>Latitude:{oneMega.position.lat}</p>
+        <p>Longitude: {oneMega.position.long}</p>
         {oneMega.favorites.length > 0 ? <img src={favorite} alt="" /> : null}
+        <OneMegaMap id={megalithId} oneMega={oneMega} />
+        <AddCommentsButton id={oneMega.id} />
+        <button onClick={() => setDetails(!detail)} className="button-50">
+          Close details window
+        </button>
       </div>
-      <OneMegaMap id={megalithId} oneMega={oneMega} />
-      <AddCommentsButton id={oneMega.id} />
     </div>
   );
 }

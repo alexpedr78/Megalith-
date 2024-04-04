@@ -30,16 +30,16 @@ function SideBar({ isOpen, setIsOpen }) {
       <div>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">HOME</Link>
           </li>
           <li>
-            <Link to="/map">Map</Link>
+            <Link to="/map">APP</Link>
           </li>
           <li>
-            <Link to="/list">List</Link>
+            <Link to="/list">ADMIN PAGE</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/about">ABOUT</Link>
           </li>
         </ul>
       </div>
