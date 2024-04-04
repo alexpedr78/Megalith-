@@ -12,6 +12,7 @@ const AddFavoriteButton = ({ id, setSelectedMarker, selectedMarker }) => {
         `https://project-management-first-try.adaptable.app/favorites/`,
         favorite
       );
+      setSelectedMarker(id);
       alert("Marker added to favorites!");
     } catch (error) {
       console.error("Error adding marker to favorites:", error);
@@ -20,10 +21,9 @@ const AddFavoriteButton = ({ id, setSelectedMarker, selectedMarker }) => {
 
   return (
     <button
-      className="button-50"
+      className="button-52"
       onClick={() => {
         handleAddFavorite();
-        setSelectedMarker(id);
       }}
     >
       Add to Favorites

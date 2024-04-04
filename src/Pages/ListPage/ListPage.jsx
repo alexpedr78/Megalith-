@@ -168,6 +168,7 @@ function ListPage() {
       </div>
       <div className="ListItemContainer">
         {megalith.map((site) => {
+          console.log(site);
           return (
             <ListItem
               key={site.id}

@@ -1,5 +1,6 @@
 .detailPageDivContainer {
-  display: flex;
+  /* position: absolute;
+  right: 5%; */
 }
 .descriptionPtagsDetailsPage {
   align-self: center;

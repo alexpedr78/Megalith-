@@ -7,6 +7,7 @@ function Deletefavoris({ id, setSelectedMarker, selectedMarker }) {
       const response = await axios.delete(
         `https://project-management-first-try.adaptable.app/favorites/${id}`
       );
+      setSelectedMarker(null);
       console.log("Favorite deleted successfully!");
     } catch (error) {
       console.log("Error deleting favorite:", error);
@@ -15,9 +16,9 @@ function Deletefavoris({ id, setSelectedMarker, selectedMarker }) {
 
   return (
     <button
+      className="button-52"
       onClick={() => {
         handleDeletefav();
-        setSelectedMarker(id);
         console.log(selectedMarker);
       }}
     >

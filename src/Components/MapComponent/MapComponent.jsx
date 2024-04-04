@@ -12,6 +12,7 @@ import DetailsMegalith from "../DetailsMegalith";
 import AddFavoriteButton from "../AddFavorite/AddFavorite.jsx/Addfavorite";
 import favorite from "./../../assets/favorite.png";
 import Deletefavoris from "../DeleteFavoris/Deletefavoris";
+import { marker } from "leaflet";
 function MapComponent() {
   const [detail, setDetails] = useState(false);
   const [markers, setMarkers] = useState([]);
@@ -25,7 +26,7 @@ function MapComponent() {
   const [description, setDescription] = useState("");
   const [village, setVillage] = useState("");
 
-  const [selectedMarker, setSelectedMarker] = useState(1);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   async function displayMegalith() {
     let apiUrl = url;
@@ -93,11 +94,6 @@ function MapComponent() {
     });
   };
 
-  const handleMarkerClick = (markerId) => {
-    if (!isNaN(markerId)) {
-      setSelectedMarker(markerId);
-    }
-  };
   const handlePopupButtonClick = (id) => {
     setSelectedMarker(id);
     setDetails(!detail);
@@ -105,11 +101,6 @@ function MapComponent() {
   console.log(selectedMarker);
   return (
     <div className="mapComponent">
-      {detail ? (
-        <div>
-          <DetailsMegalith megalithId={parseInt(selectedMarker)} />
-        </div>
-      ) : null}
       <div className="mainMapPage">
         <div className="select-category-mp">
           <select
@@ -171,38 +162,55 @@ function MapComponent() {
             className="button-50"
             onClick={() => setAddToggle(!addToggle)}
           >
-            add
+            {!addToggle ? "add" : "close"}
           </button>
+
           {addToggle ? (
             <form onSubmit={(event) => addMegalith(event)}>
-              <label>Name</label>
-              <input
-                type="text"
-                onChange={(event) => setName(event.target.value)}
-              />
-              <label>Type</label>
-              <input
-                type="text"
-                onChange={(event) => setTypeForm(event.target.value)}
-              />
-              <label>Village</label>
-              <input
-                type="text"
-                onChange={(event) => setVillage(event.target.value)}
-              />
-              <label>Description</label>
-              <label>Region</label>
-              <input
-                type="text"
-                onChange={(event) => setState(event.target.value)}
-              />
-              <label>Description</label>
-              <input
-                type="text"
-                onChange={(event) => setDescription(event.target.value)}
-              />
+              <button className="button-50" type="submit">
+                submit
+              </button>
+              <div>
+                <label className="button-50">Name</label>
+                <input
+                  className="button-51"
+                  type="text"
+                  onChange={(event) => setName(event.target.value)}
+                />
+              </div>
+              <div>
+                <label className="button-50">Type</label>
+                <input
+                  className="button-51"
+                  type="text"
+                  onChange={(event) => setTypeForm(event.target.value)}
+                />
+              </div>
+              <div>
+                <label className="button-50">Village</label>
+                <input
+                  className="button-51"
+                  type="text"
+                  onChange={(event) => setVillage(event.target.value)}
+                />
+              </div>
 
-              <button type="submit">submit</button>
+              <div>
+                <label className="button-50">Region</label>
+                <input
+                  className="button-51"
+                  type="text"
+                  onChange={(event) => setState(event.target.value)}
+                />
+              </div>
+              <div>
+                <label className="button-50">Description</label>
+                <input
+                  className="button-51"
+                  type="text"
+                  onChange={(event) => setDescription(event.target.value)}
+                />
+              </div>
             </form>
           ) : null}
         </div>
@@ -239,31 +247,35 @@ function MapComponent() {
               >
                 <Popup>
                   <div>
-                    {marker.name}
+                    <p className="button-52">{marker.name}</p>
                     {marker.favorites.length ? (
                       <img src={favorite} alt="" />
                     ) : null}
-                    <button
-                      onClick={() => {
-                        handlePopupButtonClick(marker.id);
-                      }}
-                    >
-                      GO !
-                    </button>
-
-                    {marker.favorites.length ? (
-                      <Deletefavoris
-                        selectedMarker={selectedMarker}
-                        setSelectedMarker={setSelectedMarker}
-                        id={marker.favorites[0].id}
-                      />
-                    ) : (
-                      <AddFavoriteButton
-                        selectedMarker={selectedMarker}
-                        setSelectedMarker={setSelectedMarker}
-                        id={marker.id}
-                      />
-                    )}
+                    <div>
+                      <button
+                        className="button-52"
+                        onClick={() => {
+                          handlePopupButtonClick(marker.id);
+                        }}
+                      >
+                        GO !
+                      </button>
+                    </div>
+                    <div>
+                      {marker.favorites.length ? (
+                        <Deletefavoris
+                          selectedMarker={selectedMarker}
+                          setSelectedMarker={setSelectedMarker}
+                          id={marker.favorites[0].id}
+                        />
+                      ) : (
+                        <AddFavoriteButton
+                          selectedMarker={selectedMarker}
+                          setSelectedMarker={setSelectedMarker}
+                          id={marker.id}
+                        />
+                      )}
+                    </div>
                   </div>
                 </Popup>
               </Marker>
@@ -271,22 +283,17 @@ function MapComponent() {
           </MarkerClusterGroup>
         </MapContainer>
       </div>
+      {detail ? (
+        <div>
+          <DetailsMegalith
+            setDetails={setDetails}
+            megalithId={selectedMarker}
+            detail={detail}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
 
-// MapComponent.propTypes = {
-//   markerData: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     state: PropTypes.string.isRequired,
-//     type: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     village: PropTypes.string.isRequired,
-//     description: PropTypes.string.isRequired,
-//     position: PropTypes.shape({
-//       lat: PropTypes.number.isRequired,
-//       long: PropTypes.number.isRequired,
-//     }).isRequired,
-//   }).isRequired,
-// };
 export default MapComponent;
