@@ -1,10 +1,22 @@
 :root {
-  --background-color: rgba(255, 255, 255, 0);
-  display: flex;
+  /* --background-color: rgba(255, 255, 255, 0);
+  display: flex; */
+  /*light mode*/
+  --background-color: #ffffff;
+  --text-color: #171515;
+}
+
+/* Dark Mode */
+.dark-mode {
+  --background-color: #222222;
+  --text-color: #ffffff;
 }
 
 body {
+  /* background-color: var(--background-color); */
+  box-sizing: border-box;
   background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .button-55 {

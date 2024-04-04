@@ -283,18 +283,18 @@ function MapComponent() {
   );
 }
 
-MapComponent.propTypes = {
-  markerData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    village: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    position: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      long: PropTypes.number.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
+// MapComponent.propTypes = {
+//   markerData: PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     state: PropTypes.string.isRequired,
+//     type: PropTypes.string.isRequired,
+//     name: PropTypes.string.isRequired,
+//     village: PropTypes.string.isRequired,
+//     description: PropTypes.string.isRequired,
+//     position: PropTypes.shape({
+//       lat: PropTypes.number.isRequired,
+//       long: PropTypes.number.isRequired,
+//     }).isRequired,
+//   }).isRequired,
+// };
 export default MapComponent;

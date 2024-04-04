@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import HomePage from "./Pages/HomePage/HomePage";
 import AboutPage from "./Pages/AboutPage/AboutPage";
@@ -14,13 +14,16 @@ import DetailsPage from "./Components/DetailsMegalith";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
+
   const toggleSidebar = () => {
     //console.log(isOpen);
     setIsOpen(!isOpen);
   };
+
   return (
     <div>
       <NavBar toggleSidebar={toggleSidebar} />
+
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <Routes>
         <Route path="/map" element={<MapPage />} />
