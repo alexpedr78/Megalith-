@@ -1,16 +1,14 @@
 import axios from "axios";
 
 import "./../AddFavorite.css";
-const AddFavoriteButton = ({ id }) => {
-  console.log(id);
+const AddFavoriteButton = ({ id, setSelectedMarker, selectedMarker }) => {
   const favorite = {
-    id: 1,
-    megalithId: id,
+    megalithId: Number(id),
   };
-  console.log(id);
+
   const handleAddFavorite = async () => {
     try {
-      await axios.get(
+      await axios.post(
         `https://project-management-first-try.adaptable.app/favorites/`,
         favorite
       );
@@ -21,7 +19,14 @@ const AddFavoriteButton = ({ id }) => {
   };
 
   return (
-    <button className="button-50" onClick={handleAddFavorite}>
+    <button
+      className="button-50"
+      onClick={() => {
+        setSelectedMarker(id);
+        console.log(selectedMarker);
+        handleAddFavorite();
+      }}
+    >
       Add to Favorites
     </button>
   );

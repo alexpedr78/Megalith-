@@ -4,12 +4,14 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
-let url = "https://project-management-first-try.adaptable.app/megalith?";
+let url =
+  "https://project-management-first-try.adaptable.app/megalith?_embed=favorites&";
+
 import "./MapComponent.css";
 import DetailsMegalith from "../DetailsMegalith";
 import AddFavoriteButton from "../AddFavorite/AddFavorite.jsx/Addfavorite";
-import { marker } from "leaflet";
-
+import favorite from "./../../assets/favorite.png";
+import Deletefavoris from "../DeleteFavoris/Deletefavoris";
 function MapComponent() {
   const [detail, setDetails] = useState(false);
   const [markers, setMarkers] = useState([]);
@@ -43,13 +45,6 @@ function MapComponent() {
 
     try {
       const response = await axios.get(apiUrl + params.join("&"));
-      //let megalithArray = response.data.map((elem) => ({
-      //  name: elem.name,
-      // state: elem.state,
-      // village: elem.village,
-      //  description: elem.description,
-      //  position: { lat: elem.position.lat, long: elem.position.long },
-      //}));
 
       setMarkers(response.data);
     } catch (error) {
@@ -59,13 +54,7 @@ function MapComponent() {
 
   useEffect(() => {
     displayMegalith();
-  }, [type, region]);
-
-  // const updatePopupContent = (index, content) => {
-  //   const updatedMarkers = [...markers];
-  //   updatedMarkers[index].name = content;
-  //   setMarkers(updatedMarkers);
-  // };
+  }, [type, region, selectedMarker]);
 
   const addMegalith = async (event) => {
     event.preventDefault();
@@ -111,10 +100,11 @@ function MapComponent() {
     }
   };
   const handlePopupButtonClick = (id) => {
+    console.log(id);
     setSelectedMarker(id);
     setDetails(true);
   };
-
+  console.log(selectedMarker);
   return (
     <div>
       {detail ? (
@@ -123,8 +113,6 @@ function MapComponent() {
         </div>
       ) : null}
       <div className="mainMapPage">
-        {/* <AddCommentButton/> */}
-        <AddFavoriteButton id={selectedMarker} />
         <select
           className="button-50"
           onChange={(event) => setType(event.target.value)}
@@ -240,37 +228,35 @@ function MapComponent() {
                 key={index + 1}
                 value={marker.id}
                 position={[marker.position.lat, marker.position.long]}
-                onClick={() => handleMarkerClick(marker.id)}
+                // onClick={() => handleMarkerClick(marker.id)}
               >
                 <Popup>
                   <div>
                     {marker.name}
+                    {marker.favorites.length ? (
+                      <img src={favorite} alt="" />
+                    ) : null}
                     <button
                       onClick={() => {
-                        console.log(marker);
                         handlePopupButtonClick(marker.id);
                       }}
                     >
                       GO !
                     </button>
-                    {/* <label></label>
-                    <input
-                      type="text"
-                      value={marker.name}
-                      placeholder={marker.name}
-                      onChange={(e) =>
-                        updatePopupContent(index, e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label>Description:</label>
-                    <textarea
-                      value={marker.description}
-                      onChange={(e) =>
-                        updatePopupContent(index, marker.name, e.target.value)
-                      }
-                    /> */}
+
+                    {marker.favorites.length ? (
+                      <Deletefavoris
+                        selectedMarker={selectedMarker}
+                        setSelectedMarker={setSelectedMarker}
+                        id={marker.id}
+                      />
+                    ) : (
+                      <AddFavoriteButton
+                        selectedMarker={selectedMarker}
+                        setSelectedMarker={setSelectedMarker}
+                        id={marker.id}
+                      />
+                    )}
                   </div>
                 </Popup>
               </Marker>
