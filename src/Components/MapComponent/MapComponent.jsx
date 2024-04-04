@@ -61,11 +61,11 @@ function MapComponent() {
     displayMegalith();
   }, [type, region]);
 
-  const updatePopupContent = (index, content) => {
-    const updatedMarkers = [...markers];
-    updatedMarkers[index].name = content;
-    setMarkers(updatedMarkers);
-  };
+  // const updatePopupContent = (index, content) => {
+  //   const updatedMarkers = [...markers];
+  //   updatedMarkers[index].name = content;
+  //   setMarkers(updatedMarkers);
+  // };
 
   const addMegalith = async (event) => {
     event.preventDefault();
@@ -108,11 +108,9 @@ function MapComponent() {
     console.log(markerId);
     if (!isNaN(markerId)) {
       setSelectedMarker(markerId);
-      console.log(selectedMarker);
     }
   };
   const handlePopupButtonClick = (id) => {
-    console.log(id);
     setSelectedMarker(id);
     setDetails(true);
   };
@@ -125,6 +123,7 @@ function MapComponent() {
         </div>
       ) : null}
       <div className="mainMapPage">
+        {/* <AddCommentButton/> */}
         <AddFavoriteButton id={selectedMarker} />
         <select
           className="button-50"
@@ -283,18 +282,18 @@ function MapComponent() {
   );
 }
 
-MapComponent.propTypes = {
-  markerData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    village: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    position: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      long: PropTypes.number.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
+// MapComponent.propTypes = {
+//   markerData: PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     state: PropTypes.string.isRequired,
+//     type: PropTypes.string.isRequired,
+//     name: PropTypes.string.isRequired,
+//     village: PropTypes.string.isRequired,
+//     description: PropTypes.string.isRequired,
+//     position: PropTypes.shape({
+//       lat: PropTypes.number.isRequired,
+//       long: PropTypes.number.isRequired,
+//     }).isRequired,
+//   }).isRequired,
+// };
 export default MapComponent;

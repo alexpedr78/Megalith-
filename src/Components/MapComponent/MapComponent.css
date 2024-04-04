@@ -1,4 +1,6 @@
 .mainMapPage {
+  width: fit-content;
   display: flex;
-  flex-direction: column;
+}
+.inputAsideTheMap {
 }
