@@ -102,7 +102,6 @@ function ListPage() {
   return (
     <div className="ListPage">
       <div className="buttonContainer">
-        {" "}
         <div className="SelectListPage">
           <select
             className="button-50"
@@ -112,7 +111,7 @@ function ListPage() {
             value={selectValue}
           >
             <option disabled value="-1">
-              Select a Category
+              Select by Category
             </option>
             <option value="-1">All</option>
             <option value="Stone Circle">Stone Circle</option>
@@ -135,7 +134,7 @@ function ListPage() {
             value={selectValueRegion}
           >
             <option disabled value="-1">
-              Select Region
+              Select by Region
             </option>
             <option value="-1">All</option>
             <option value="Occitania">Occitania</option>
@@ -163,7 +162,7 @@ function ListPage() {
             className="button-50"
             type="text"
             onChange={(event) => handleChangeSearchBar(event)}
-            placeholder="Search by name"
+            placeholder="Search by Name"
           />
         </div>
       </div>

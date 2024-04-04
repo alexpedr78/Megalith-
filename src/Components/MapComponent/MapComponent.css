@@ -1,6 +1,13 @@
 .mainMapPage {
-  width: fit-content;
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 2rem;
 }
-.inputAsideTheMap {
+.mapMapComponent {
+}
+.mapComponent {
+  display: flex;
+
+  gap: 1rem;
 }

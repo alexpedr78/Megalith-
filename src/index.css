@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 :root {
   --light-text: rgb(199, 203, 199);
   --dark-text: rgb(15, 35, 33);
@@ -19,6 +20,7 @@ body {
   color: var(--light-text);
   transition: background-color 0.5s, color 0.5s;
 }
+
 nav {
   color: var(--dark-text);
   background-color: var(--light-background);
@@ -42,6 +44,7 @@ html.dark {
     background-color: var(--dark-background);
   }
 }
+
 /*toggle*/
 .theme-switch {
   --day: rgb(199, 203, 199);
@@ -52,6 +55,7 @@ html.dark {
   outline: 2px solid var(--highlight);
   width: fit-content;
 }
+
 #theme {
   position: relative;
   display: flex;
@@ -69,6 +73,7 @@ html.dark {
   border-radius: 70vw;
   outline-offset: 5px;
 }
+
 .theme-toggle {
   position: relative;
   background-color: var(--dark-background);
@@ -98,13 +103,8 @@ html.dark {
 .button-55 {
   align-self: center;
   background-color: #fff;
-  background-image: none;
-  background-position: 0 90%;
-  background-repeat: repeat no-repeat;
-  background-size: 4px 3px;
   border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
-  border-style: solid;
-  border-width: 2px;
+  border: 2px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
   box-sizing: border-box;
   color: #41403e;
@@ -114,16 +114,35 @@ html.dark {
   font-size: 1rem;
   line-height: 23px;
   outline: none;
-  padding: 0.75rem;
+  padding: 0rem;
   text-decoration: none;
   transition: all 235ms ease-in-out;
-  border-bottom-left-radius: 15px 255px;
-  border-bottom-right-radius: 225px 15px;
-  border-top-left-radius: 255px 15px;
-  border-top-right-radius: 15px 225px;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  background-color: #8b8484;
+  background-image: none;
+  border: 1px solid #8b8484;
+  border-radius: 4px;
+  box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: ITCAvantGardeStd-Bk, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 5px 10px 0;
+  overflow: visible;
+  padding: 0.3rem;
+  text-align: center;
+  text-transform: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 .button-55:hover {
@@ -134,14 +153,15 @@ html.dark {
 .button-55:focus {
   box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
 }
+
 .buttonContainer {
   display: flex;
   justify-content: space-around;
 }
+
 .button-50 {
   appearance: button;
   background-color: #000;
-  background-image: none;
   border: 1px solid #000;
   border-radius: 4px;
   box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
@@ -155,7 +175,7 @@ html.dark {
   line-height: 20px;
   margin: 0 5px 10px 0;
   overflow: visible;
-  padding: 12px 40px;
+  padding: 8px 30px;
   text-align: center;
   text-transform: none;
   touch-action: manipulation;
@@ -165,10 +185,7 @@ html.dark {
   white-space: nowrap;
 }
 
-.button-50:focus {
-  text-decoration: none;
-}
-
+.button-50:focus,
 .button-50:hover {
   text-decoration: none;
 }
@@ -186,10 +203,5 @@ html.dark {
 @media (min-width: 768px) {
   .button-50 {
     padding: 12px 50px;
-  }
-}
-@media (min-width: 1280px) {
-  .button-50 {
-    padding: 12px 50px; /* Le padding spécifique pour les écrans de 17 pouces ou plus */
   }
 }

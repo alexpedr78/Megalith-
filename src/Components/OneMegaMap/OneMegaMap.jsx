@@ -5,11 +5,13 @@ import PropTypes from "prop-types";
 function OneMegaMap({ oneMega }) {
   return (
     <MapContainer
-      center={[46.52, 2.43]}
+      center={[oneMega.position.lat, oneMega.position.long]}
       zoom={5}
       style={{
-        height: "400px",
-        width: "400px",
+        height: "200px",
+        width: "200px",
+        border: "2px solid",
+        borderRadius: "5px",
       }}
     >
       <TileLayer
