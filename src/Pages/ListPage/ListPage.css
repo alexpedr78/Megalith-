@@ -1,45 +1,27 @@
 .ListPage {
-  background-color: #f8f4ec;
-}
-.ListPage {
   background-color: var(--background-color);
   color: var(--text-color);
   display: flex;
   flex-direction: column;
 }
-.ContainerInputListPage {
-  display: flex;
-  justify-content: space-around;
-  padding: 1rem;
-}
-.SelectListPage {
-  height: 2rem;
-}
-.searchBarListPage {
-  height: 2rem;
-}
+
 .ListItemContainer {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 3rem;
   justify-content: space-evenly;
-  background-color: var(--dark-background);
-}
-.buttonInsideEdit {
-  display: flex;
-}
-.megalithItem {
   background-color: var(--background-color);
-  color: var(--text-color);
+}
+
+.megalithItem {
   background: linear-gradient(90deg, rgb(182, 170, 112) 91%);
   background-image: none;
   border: 1px solid #000;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  /* box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px; */
   box-sizing: border-box;
-  color: #8b8484;
+  color: var(--light-text); /* Couleur de texte clair */
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -59,22 +41,27 @@
   white-space: nowrap;
   gap: 1rem;
 }
+
 .introListItem {
   display: flex;
 }
+
 .paragraph-listItem {
   text-align: justify;
   align-self: center;
 }
+
 .mapUpdate-button {
   display: flex;
   justify-content: space-between;
   gap: 3rem;
 }
+
 .delete-ListItem {
   display: flex;
   justify-content: right;
 }
+
 .buttonContainer {
   display: flex;
   gap: 1rem;
