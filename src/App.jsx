@@ -44,8 +44,12 @@ function App() {
 
   return (
     <div>
-      <NavBar toggleSidebar={toggleSidebar} />
-      <div className="theme-switch">
+      <NavBar
+        toggleSidebar={toggleSidebar}
+        handleChange={handleChange}
+        theme={theme}
+      />
+      {/* <div className="theme-switch">
         <label id="theme" htmlFor="theme-input">
           <span className="theme-logo">🌙</span>
           <input
@@ -57,7 +61,7 @@ function App() {
           <span className="theme-toggle"></span>
           <span className="theme-logo">☀️</span>
         </label>
-      </div>
+      </div> */}
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <Routes>
         <Route path="/map" element={<MapPage />} />
