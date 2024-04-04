@@ -94,15 +94,12 @@ function MapComponent() {
   };
 
   const handleMarkerClick = (markerId) => {
-    console.log(markerId);
     if (!isNaN(markerId)) {
       setSelectedMarker(markerId);
     }
   };
-  const handlePopupButtonClick = (id) => {
-    console.log(id);
-    setSelectedMarker(id);
-    setDetails(true);
+  const handlePopupButtonClick = () => {
+    setDetails(!detail);
   };
   console.log(selectedMarker);
   return (
@@ -228,7 +225,6 @@ function MapComponent() {
                 key={index + 1}
                 value={marker.id}
                 position={[marker.position.lat, marker.position.long]}
-                // onClick={() => handleMarkerClick(marker.id)}
               >
                 <Popup>
                   <div>
@@ -238,7 +234,7 @@ function MapComponent() {
                     ) : null}
                     <button
                       onClick={() => {
-                        handlePopupButtonClick(marker.id);
+                        handlePopupButtonClick();
                       }}
                     >
                       GO !
@@ -248,7 +244,7 @@ function MapComponent() {
                       <Deletefavoris
                         selectedMarker={selectedMarker}
                         setSelectedMarker={setSelectedMarker}
-                        id={marker.id}
+                        id={marker.favorites[0].id}
                       />
                     ) : (
                       <AddFavoriteButton

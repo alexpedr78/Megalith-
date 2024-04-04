@@ -22,9 +22,8 @@ const AddFavoriteButton = ({ id, setSelectedMarker, selectedMarker }) => {
     <button
       className="button-50"
       onClick={() => {
-        setSelectedMarker(id);
-        console.log(selectedMarker);
         handleAddFavorite();
+        setSelectedMarker(id);
       }}
     >
       Add to Favorites

@@ -43,7 +43,7 @@ function DetailsMegalith({ megalithId }) {
           Position: lat:{oneMega.position.lat}
           long: {oneMega.position.long}
         </p>
-        {oneMega.favorites ? <img src={favorite} alt="" /> : null}
+        {oneMega.favorites.length > 0 ? <img src={favorite} alt="" /> : null}
       </div>
       <OneMegaMap id={megalithId} oneMega={oneMega} />
       <AddCommentsButton id={oneMega.id} />
