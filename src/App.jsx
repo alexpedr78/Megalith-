@@ -14,6 +14,28 @@ import DetailsPage from "./Components/DetailsMegalith";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    const currentTheme = localStorage.getItem("theme");
+    //console.log("dark");
+
+    if (currentTheme) {
+      document.documentElement.className = currentTheme;
+      return currentTheme;
+    }
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.className = "dark";
+      return "dark";
+    } else {
+      document.documentElement.className = "light";
+      return "light";
+    }
+  });
+  function handleChange() {
+    const newTheme = theme === "ligth" ? "dark" : "ligth";
+    document.documentElement.className = newTheme;
+
+    setTheme(newTheme);
+  }
 
   const toggleSidebar = () => {
     //console.log(isOpen);
@@ -23,7 +45,19 @@ function App() {
   return (
     <div>
       <NavBar toggleSidebar={toggleSidebar} />
-
+      <div className="theme-switch">
+        <label id="theme" htmlFor="theme-input">
+          <span className="theme-logo">🌙</span>
+          <input
+            type="checkbox"
+            id="theme-input"
+            checked={theme === "ligth"}
+            onChange={handleChange}
+          />
+          <span className="theme-toggle"></span>
+          <span className="theme-logo">☀️</span>
+        </label>
+      </div>
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <Routes>
         <Route path="/map" element={<MapPage />} />
