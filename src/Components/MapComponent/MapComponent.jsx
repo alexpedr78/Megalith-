@@ -61,11 +61,11 @@ function MapComponent() {
     displayMegalith();
   }, [type, region]);
 
-  const updatePopupContent = (index, content) => {
-    const updatedMarkers = [...markers];
-    updatedMarkers[index].name = content;
-    setMarkers(updatedMarkers);
-  };
+  // const updatePopupContent = (index, content) => {
+  //   const updatedMarkers = [...markers];
+  //   updatedMarkers[index].name = content;
+  //   setMarkers(updatedMarkers);
+  // };
 
   const addMegalith = async (event) => {
     event.preventDefault();
@@ -108,11 +108,9 @@ function MapComponent() {
     console.log(markerId);
     if (!isNaN(markerId)) {
       setSelectedMarker(markerId);
-      console.log(selectedMarker);
     }
   };
   const handlePopupButtonClick = (id) => {
-    console.log(id);
     setSelectedMarker(id);
     setDetails(true);
   };
@@ -125,6 +123,7 @@ function MapComponent() {
         </div>
       ) : null}
       <div className="mainMapPage">
+        {/* <AddCommentButton/> */}
         <AddFavoriteButton id={selectedMarker} />
         <select
           className="button-50"
