@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./SideBar.css";
-import PropTypes from "prop-types";
 
 function SideBar({ isOpen, setIsOpen }) {
   // const [clickedOutside, setClickedOutside] = useState(false);
@@ -46,9 +45,5 @@ function SideBar({ isOpen, setIsOpen }) {
     </div>
   );
 }
-
-SideBar.propTypes = {
-  isOpen: PropTypes.bool.isRequired, // Valider la prop isOpen
-};
 
 export default SideBar;

@@ -22,7 +22,7 @@ function FavoritePage() {
 
   if (!fav) {
     console.log("No Favorites to display");
-    return null; // Return null if fav is not yet loaded
+    return null;
   }
 
   return (

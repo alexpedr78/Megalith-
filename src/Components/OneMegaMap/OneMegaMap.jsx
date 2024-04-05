@@ -1,7 +1,7 @@
 import "./OneMegaMap.css";
 import { MapContainer } from "react-leaflet";
 import { Popup, Marker, TileLayer } from "react-leaflet";
-import PropTypes from "prop-types";
+
 function OneMegaMap({ oneMega }) {
   return (
     <MapContainer
@@ -30,20 +30,5 @@ function OneMegaMap({ oneMega }) {
     </MapContainer>
   );
 }
-
-OneMegaMap.propTypes = {
-  oneMega: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    state: PropTypes.string,
-    type: PropTypes.string,
-    name: PropTypes.string,
-    village: PropTypes.string,
-    description: PropTypes.string,
-    position: PropTypes.shape({
-      long: PropTypes.number,
-      lat: PropTypes.number,
-    }),
-  }).isRequired,
-};
 
 export default OneMegaMap;

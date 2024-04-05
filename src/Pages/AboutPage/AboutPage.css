@@ -16,24 +16,26 @@
   gap: 5rem;
   border: 6px solid;
   border-radius: 10px;
-
   border-style: groove;
-
-  /*background-color: var (--ligth-background);*/
 }
 .detail {
   background-color: var (--light-background);
   margin-left: 2.5rem;
 }
 
-/* .h2 {
-  color: #3e3506;
-  font-family: "MedievalSharp", cursive;
-  font-size: 28px;
-} */
-
 @media (prefers-color-scheme: dark) {
   .detail {
     color: whitesmoke;
   }
+}
+.textAbout {
+  margin-top: 1rem;
+  text-align: justify;
+  line-height: 1.5rem;
+  margin-bottom: 1rem;
+}
+.textAbout2 {
+  margin-bottom: 1rem;
+  text-align: justify;
+  line-height: 1.5rem;
 }

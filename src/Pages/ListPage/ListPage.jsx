@@ -30,6 +30,7 @@ function ListPage() {
       }
 
       const response = await axios.get(url + searchParams);
+
       setMegalith(response.data);
     } catch (error) {
       console.log(error);

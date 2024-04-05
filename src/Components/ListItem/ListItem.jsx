@@ -1,5 +1,6 @@
 import OneMegaMap from "../OneMegaMap/OneMegaMap";
 import { useState } from "react";
+import Logo from "./../../assets/favorite.png";
 function ListItem({
   site,
   updateDescription,
@@ -13,7 +14,8 @@ function ListItem({
   editId,
 }) {
   const [map, setMap] = useState(false);
-  const { id, state, type, name, village, description, position } = site;
+  const { id, state, type, name, village, description, position, favorites } =
+    site;
 
   return (
     <article className="megalithItem" key={id}>
@@ -32,17 +34,12 @@ function ListItem({
                 }, ${position.long ? position.long : "N/A"})`
               : null}
           </p>
-          {/* {site.favorites.length ? (
-            <p>
-              <img src="./../assets/favori" alt="" />
-            </p>
-          ) : null} */}
+          <p> {favorites.length ? <img src={Logo} alt="" /> : null} </p>
         </div>
 
         {map ? <OneMegaMap oneMega={site} /> : null}
       </div>
       <div className="mapUpdate-button">
-        {" "}
         <button className="button-55" onClick={() => setMap(!map)}>
           Map
         </button>

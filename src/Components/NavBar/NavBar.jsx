@@ -1,7 +1,5 @@
 import "./NavBar.css";
 import logo from "../../assets/menhir.png";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
 function NavBar({ toggleSidebar, handleChange, theme }) {
   return (
