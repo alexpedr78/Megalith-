@@ -2,7 +2,9 @@ import axios from "axios";
 import { useEffect } from "react";
 import "./ListPage.css";
 import { useState } from "react";
-const url = "https://project-management-first-try.adaptable.app";
+const url =
+  "https://project-management-first-try.adaptable.app/megalith?_embed=favorites&_embed=comments";
+
 import ListItem from "../../Components/ListItem/ListItem";
 
 function ListPage() {
@@ -18,7 +20,7 @@ function ListPage() {
 
   async function displayMegalith() {
     try {
-      let searchParams = `/megalith?_limit=25&_page=${currentPage}`;
+      let searchParams = `/?_limit=25&_page=${currentPage}`;
       if (site) {
         searchParams += `&name_like=${site}`;
       }

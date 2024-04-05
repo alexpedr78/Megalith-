@@ -1,6 +1,7 @@
 import OneMegaMap from "../OneMegaMap/OneMegaMap";
 import { useState } from "react";
 import Logo from "./../../assets/favorite.png";
+
 function ListItem({
   site,
   updateDescription,
@@ -14,19 +15,32 @@ function ListItem({
   editId,
 }) {
   const [map, setMap] = useState(false);
-  const { id, state, type, name, village, description, position, favorites } =
-    site;
+  const {
+    id,
+    state,
+    type,
+    name,
+    village,
+    description,
+    position,
+    favorites,
+    comments,
+  } = site;
 
   return (
     <article className="megalithItem" key={id}>
       <div className="introListItem">
         <div className="paragraph-listItem">
           <p>{name ? `Name of the site : ${name}` : null}</p>
-
           <p>{type ? `Category of the site : ${type}` : null}</p>
           <p>{state ? `Region : ${state}` : null}</p>
           <p>{village ? `Village : ${village}` : null}</p>
           <p>{description ? `Description : ${description}` : null}</p>
+          {comments && comments.text
+            ? comments.map((comment, index) => (
+                <p key={index}>{comment.text}</p>
+              ))
+            : null}
           <p>
             {position
               ? `Position of the site : (${
@@ -34,9 +48,10 @@ function ListItem({
                 }, ${position.long ? position.long : "N/A"})`
               : null}
           </p>
-          <p> {favorites.length ? <img src={Logo} alt="" /> : null} </p>
+          <p>
+            {favorites && favorites.length ? <img src={Logo} alt="" /> : null}
+          </p>
         </div>
-
         {map ? <OneMegaMap oneMega={site} /> : null}
       </div>
       <div className="mapUpdate-button">
@@ -55,7 +70,6 @@ function ListItem({
                 type="text"
                 value={updatedName}
                 onChange={(e) => setUpdatedName(e.target.value)}
-                placeholder={name}
               />
             </div>
             <div>
@@ -65,7 +79,6 @@ function ListItem({
                 type="text"
                 value={updateDescription}
                 onChange={(e) => setUpdatedDescription(e.target.value)}
-                placeholder={description ? `${description}` : ""}
               />
             </div>
             <div className="buttonInsideEdit">
@@ -112,4 +125,5 @@ function ListItem({
     </article>
   );
 }
+
 export default ListItem;

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./SideBar.css";
 
 function SideBar({ isOpen, setIsOpen }) {
-  // const [clickedOutside, setClickedOutside] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -12,8 +11,6 @@ function SideBar({ isOpen, setIsOpen }) {
         return;
       }
       if (!ref.current.contains(event.target)) {
-        // console.log(event.target.className === "logo");
-        // console.log("outside");
         setIsOpen(false);
       }
     }

@@ -25,8 +25,5 @@ function NavBar({ toggleSidebar, handleChange, theme }) {
     </div>
   );
 }
-NavBar.propTypes = {
-  toggleSidebar: PropTypes.func.isRequired,
-};
 
 export default NavBar;
