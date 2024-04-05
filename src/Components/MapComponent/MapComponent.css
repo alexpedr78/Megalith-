@@ -4,10 +4,21 @@
   justify-content: space-around;
   margin-left: 2rem;
 }
-.mapMapComponent {
-}
+
 .mapComponent {
   display: flex;
 
   gap: 1rem;
+}
+.formMapPage {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.popUpname {
+  font-size: 1rem;
+  font-weight: 900;
+}
+.favori {
+  background-color: yellow;
 }

@@ -8,18 +8,15 @@ import AddCommentsButton from "./AddCommentsButton/AddCommentsButton";
 
 function DetailsMegalithComponent({ setDetails, detail, megalithId }) {
   const [oneMega, setOneMega] = useState(null);
-  console.log(megalithId);
 
   useEffect(() => {
     async function getOneMegalith(id) {
       try {
-        console.log(id);
         const response = await axios.get(
           `https://project-management-first-try.adaptable.app/megalith/${id}/?_embed=favorites`
         );
-        console.log(response.data);
+
         setOneMega(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -31,12 +28,13 @@ function DetailsMegalithComponent({ setDetails, detail, megalithId }) {
   if (!oneMega) {
     return <p>loading</p>;
   }
-  console.log(oneMega);
+
   return (
     <div className="detailPageContainer">
       <div>
         <div className="descriptionPtagsDetailsPage">
-          <p>Name of the site: {oneMega.name}</p>
+          <p>Name of the site:</p>
+          <p>{oneMega.name}</p>
           <p>Type of the site: {oneMega.type}</p>
           <p>City : {oneMega.village}</p>
           <p>Region: {oneMega.state}</p>

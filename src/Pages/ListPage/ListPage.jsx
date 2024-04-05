@@ -54,7 +54,7 @@ function ListPage() {
 
   function handleSelectChangeRegion(event) {
     const { value } = event.target;
-    console.log(value);
+
     setSelectValueRegion(value);
   }
 
@@ -168,7 +168,6 @@ function ListPage() {
       </div>
       <div className="ListItemContainer">
         {megalith.map((site) => {
-          console.log(site);
           return (
             <ListItem
               key={site.id}

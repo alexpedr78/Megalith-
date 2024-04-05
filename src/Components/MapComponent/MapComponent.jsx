@@ -4,15 +4,15 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
-let url =
-  "https://project-management-first-try.adaptable.app/megalith?_embed=favorites&";
-
 import "./MapComponent.css";
 import DetailsMegalith from "../DetailsMegalith";
 import AddFavoriteButton from "../AddFavorite/AddFavorite.jsx/Addfavorite";
 import favorite from "./../../assets/favorite.png";
 import Deletefavoris from "../DeleteFavoris/Deletefavoris";
-import { marker } from "leaflet";
+import { Link } from "react-router-dom";
+let url =
+  "https://project-management-first-try.adaptable.app/megalith?_embed=favorites&";
+
 function MapComponent() {
   const [detail, setDetails] = useState(false);
   const [markers, setMarkers] = useState([]);
@@ -62,6 +62,7 @@ function MapComponent() {
         });
         setAddToggle(false);
       }
+
       setMarkers(response.data);
     } catch (error) {
       console.log(error);
@@ -70,7 +71,7 @@ function MapComponent() {
 
   useEffect(() => {
     displayMegalith();
-  }, [type, region, selectedMarker, markers]);
+  }, [type, region, selectedMarker]);
 
   const addMegalith = async (event) => {
     event.preventDefault();
@@ -116,7 +117,7 @@ function MapComponent() {
       setDetails(!detail);
     }
   };
-  console.log(selectedMarker);
+
   return (
     <div className="mapComponent">
       <div className="mainMapPage">
@@ -175,63 +176,62 @@ function MapComponent() {
             </option>
           </select>
         </div>
+
+        {addToggle ? (
+          <form onSubmit={(event) => addMegalith(event)}>
+            <div className="formMapPage">
+              <label className="button-54">Name :</label>
+              <input
+                className="button-54"
+                type="text"
+                onChange={(event) => setName(event.target.value)}
+              />
+            </div>
+            <div className="formMapPage">
+              <label className="button-54">Type :</label>
+              <input
+                className="button-54"
+                type="text"
+                onChange={(event) => setTypeForm(event.target.value)}
+              />
+            </div>
+            <div className="formMapPage">
+              <label className="button-54">Village :</label>
+              <input
+                className="button-54"
+                type="text"
+                onChange={(event) => setVillage(event.target.value)}
+              />
+            </div>
+
+            <div className="formMapPage">
+              <label className="button-54">Region :</label>
+              <input
+                className="button-54"
+                type="text"
+                onChange={(event) => setState(event.target.value)}
+              />
+            </div>
+            <div className="formMapPage">
+              <label className="button-54">Description :</label>
+              <input
+                className="button-54"
+                type="text"
+                onChange={(event) => setDescription(event.target.value)}
+              />
+            </div>
+            <button className="button-53" type="submit">
+              Add your discovery
+            </button>
+          </form>
+        ) : null}
         <div className="AddButton-mp">
           <button
-            className="button-50"
+            className="button-53"
             onClick={() => setAddToggle(!addToggle)}
           >
-            {!addToggle ? "add" : "close"}
+            {!addToggle ? "Add your Megalith" : "Close and Cancel"}
           </button>
-
-          {addToggle ? (
-            <form onSubmit={(event) => addMegalith(event)}>
-              <div>
-                <label className="button-50">Name</label>
-                <input
-                  className="button-51"
-                  type="text"
-                  onChange={(event) => setName(event.target.value)}
-                />
-              </div>
-              <div>
-                <label className="button-50">Type</label>
-                <input
-                  className="button-51"
-                  type="text"
-                  onChange={(event) => setTypeForm(event.target.value)}
-                />
-              </div>
-              <div>
-                <label className="button-50">Village</label>
-                <input
-                  className="button-51"
-                  type="text"
-                  onChange={(event) => setVillage(event.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="button-50">Region</label>
-                <input
-                  className="button-51"
-                  type="text"
-                  onChange={(event) => setState(event.target.value)}
-                />
-              </div>
-              <div>
-                <label className="button-50">Description</label>
-                <input
-                  className="button-51"
-                  type="text"
-                  value="description"
-                  onChange={(event) => setDescription(event.target.value)}
-                />
-              </div>
-              <button className="button-50" type="submit">
-                submit
-              </button>
-            </form>
-          ) : null}
         </div>
       </div>
       <div
@@ -266,22 +266,27 @@ function MapComponent() {
               >
                 <Popup>
                   <div>
-                    <p className="button-52">{marker.name}</p>
-                    {marker.favorites.length ? (
-                      <img src={favorite} alt="" />
+                    <p className="popUpname">{marker.name}</p>
+
+                    {marker.favorites && marker.favorites.length ? (
+                      <Link to="/favorites">
+                        <img src={favorite} className="favori" alt="" />
+                      </Link>
                     ) : null}
                     <div>
-                      <button
-                        className="button-52"
-                        onClick={() => {
-                          handlePopupButtonClick(marker.id);
-                        }}
-                      >
-                        GO !
-                      </button>
+                      {!detail ? (
+                        <button
+                          className="button-52"
+                          onClick={() => {
+                            handlePopupButtonClick(marker.id);
+                          }}
+                        >
+                          Megalith details !
+                        </button>
+                      ) : null}
                     </div>
                     <div>
-                      {marker.favorites.length ? (
+                      {marker.favorites && marker.favorites.length ? (
                         <Deletefavoris
                           selectedMarker={selectedMarker}
                           setSelectedMarker={setSelectedMarker}

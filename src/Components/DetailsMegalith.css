@@ -1,9 +1,11 @@
 .detailPageContainer {
   display: flex;
+  width: 40rem;
 }
 .descriptionPtagsDetailsPage {
   display: flex;
   flex-direction: column-reverse;
+
   color: black;
   font-family: sans-serif;
 }
