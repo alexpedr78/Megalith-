@@ -43,10 +43,10 @@ function DetailsMegalithComponent({ setDetails, detail, megalithId }) {
           {oneMega.favorites.length > 0 ? <img src={favorite} alt="" /> : null}
         </div>
         <OneMegaMap id={megalithId} oneMega={oneMega} />
-        <AddCommentsButton id={oneMega.id} />
+        {/* <AddCommentsButton id={oneMega.id} />
         <button onClick={() => setDetails(!detail)} className="button-50">
           Close details window
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import DetailsMegalith from "../DetailsMegalith";
 import AddFavoriteButton from "../AddFavorite/AddFavorite.jsx/Addfavorite";
 import favorite from "./../../assets/favorite.png";
 import Deletefavoris from "../DeleteFavoris/Deletefavoris";
-import { Link } from "react";
+import { Link } from "react-router-dom";
 let url =
   "https://project-management-first-try.adaptable.app/megalith?_embed=favorites&";
 
