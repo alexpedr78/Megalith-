@@ -1,8 +1,9 @@
-.detailPageDivContainer {
-  /* position: absolute;
-  right: 5%; */
+.detailPageContainer {
+  display: flex;
 }
 .descriptionPtagsDetailsPage {
-  align-self: center;
-  width: 50%;
+  display: flex;
+  flex-direction: column-reverse;
+  color: black;
+  font-family: sans-serif;
 }

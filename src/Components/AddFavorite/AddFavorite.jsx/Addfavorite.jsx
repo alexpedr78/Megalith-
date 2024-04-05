@@ -13,7 +13,6 @@ const AddFavoriteButton = ({ id, setSelectedMarker, selectedMarker }) => {
         favorite
       );
       setSelectedMarker(id);
-      alert("Marker added to favorites!");
     } catch (error) {
       console.error("Error adding marker to favorites:", error);
     }

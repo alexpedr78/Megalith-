@@ -27,7 +27,13 @@ function MapComponent() {
   const [village, setVillage] = useState("");
 
   const [selectedMarker, setSelectedMarker] = useState(null);
-
+  const [formData, setFormData] = useState({
+    name: "",
+    state: "",
+    typeForm: "",
+    village: "",
+    description: "",
+  });
   async function displayMegalith() {
     let apiUrl = url;
     let params = [];
@@ -46,7 +52,16 @@ function MapComponent() {
 
     try {
       const response = await axios.get(apiUrl + params.join("&"));
-
+      if (response) {
+        setFormData({
+          name: "",
+          state: "",
+          typeForm: "",
+          village: "",
+          description: "",
+        });
+        setAddToggle(false);
+      }
       setMarkers(response.data);
     } catch (error) {
       console.log(error);
@@ -55,7 +70,7 @@ function MapComponent() {
 
   useEffect(() => {
     displayMegalith();
-  }, [type, region, selectedMarker]);
+  }, [type, region, selectedMarker, markers]);
 
   const addMegalith = async (event) => {
     event.preventDefault();
@@ -73,6 +88,7 @@ function MapComponent() {
           long: longitude,
           lat: latitude,
         },
+        // favoris: [],
       };
 
       try {
@@ -86,17 +102,19 @@ function MapComponent() {
           setDescription("");
           setAddToggle(false);
         } else {
-          console.error("Failed to add megalith");
+          console.error("Failed to add");
         }
       } catch (error) {
-        console.error("Error adding megalith:", error);
+        console.error(error);
       }
     });
   };
 
   const handlePopupButtonClick = (id) => {
-    setSelectedMarker(id);
-    setDetails(!detail);
+    if (detail === false) {
+      setSelectedMarker(id);
+      setDetails(!detail);
+    }
   };
   console.log(selectedMarker);
   return (
@@ -167,9 +185,6 @@ function MapComponent() {
 
           {addToggle ? (
             <form onSubmit={(event) => addMegalith(event)}>
-              <button className="button-50" type="submit">
-                submit
-              </button>
               <div>
                 <label className="button-50">Name</label>
                 <input
@@ -208,9 +223,13 @@ function MapComponent() {
                 <input
                   className="button-51"
                   type="text"
+                  value="description"
                   onChange={(event) => setDescription(event.target.value)}
                 />
               </div>
+              <button className="button-50" type="submit">
+                submit
+              </button>
             </form>
           ) : null}
         </div>
