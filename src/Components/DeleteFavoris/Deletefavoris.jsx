@@ -20,6 +20,7 @@ function Deletefavoris({ id, setSelectedMarker, selectedMarker }) {
       onClick={() => {
         handleDeletefav();
         console.log(selectedMarker);
+        setSelectedMarker(id);
       }}
     >
       Delete favoris

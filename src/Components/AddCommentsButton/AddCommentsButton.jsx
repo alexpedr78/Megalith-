@@ -5,6 +5,7 @@ function AddCommentsButton({ id }) {
   return (
     <div>
       <label htmlFor="">write a comment</label>
+      <br />
       <input type="text" />
     </div>
   );

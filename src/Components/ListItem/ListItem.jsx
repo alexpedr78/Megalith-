@@ -12,7 +12,6 @@ function ListItem({
   handleUpdate,
   editId,
 }) {
-  console.log(site);
   const [map, setMap] = useState(false);
   const { id, state, type, name, village, description, position } = site;
 
