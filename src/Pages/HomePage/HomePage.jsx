@@ -31,22 +31,7 @@ function HomePage() {
             }
           </style>
           <div className="text-title">
-            <h2> Welcome to Megalith,</h2>
-          </div>
-          <div className="text-para">
-            <p>
-              <strong>
-                where exploration meets education! Immerse yourself in the
-                legends surrounding these exceptional sites, where ancient
-                mysteries and untold stories await discovery. From towering
-                monuments to enigmatic structures, each site holds a tale as
-                captivating as it is mysterious. Join us as we journey !!
-                through the realms of myth and legend, unraveling the secrets of
-                the past and igniting our curiosity for the unknown. Embark on
-                an adventure of a lifetime and let the legends of Megalith guide
-                your path to enlightenment.
-              </strong>
-            </p>
+            <h1> Welcome to Megalith</h1>
           </div>
         </div>
       </div>

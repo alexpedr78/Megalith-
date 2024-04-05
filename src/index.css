@@ -1,6 +1,6 @@
 :root {
-  --light-text: rgb(199, 203, 199);
-  --dark-text: RGB(62, 53, 5);
+  --light-text: rgb(62, 53, 5)
+  --dark-text: RGB(245, 245, 220);
   --light-background: beige; /* Fond beige */
   --dark-background: rgb(62, 53, 5); /* Tons de brun */
 }
@@ -8,7 +8,11 @@
 /* Dark Mode */
 .dark-mode {
   --background-color: #222222;
-  --text-color: #ffffff;
+  rgb(62, 53, 5)
+}
+.ligth-mode{
+  --light-background: beige;
+  --dark-text: RGB(62, 53, 5);
 }
 
 body {
