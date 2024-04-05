@@ -3,8 +3,8 @@ import "./AboutPage.css";
 function AboutPage() {
   return (
     <div className="about-container">
-      <div className="article">
-        <article>
+      <div className="info">
+        <article className="detail">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
           itaque excepturi voluptatem natus earum! Pariatur dicta consectetur
           eveniet sed sint enim quo eaque. Similique obcaecati alias illum,
@@ -15,8 +15,8 @@ function AboutPage() {
 
         <div className="video-container">
           <iframe
-            width="560"
-            height="315"
+            width="600"
+            height="500"
             src="https://www.youtube.com/embed/p1UKVXA25EM"
             title="Embedded video"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

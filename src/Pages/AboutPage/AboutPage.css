@@ -2,19 +2,29 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+  padding: 2rem;
 }
-.article {
+.info {
   display: flex;
-  color: #3e3506;
+  color: RGB(62, 53, 5);
   font-family: "MedievalSharp", cursive;
   font-size: 16px;
-  article {
-    background-color: var (--ligth-background);
-  }
+  padding-right: 5rem;
+  gap: 5rem;
+  /*background-color: var (--ligth-background);*/
+}
+.detail {
+  background-color: var (--light-background);
 }
 
 .h2 {
   color: #3e3506;
   font-family: "MedievalSharp", cursive;
   font-size: 28px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .detail {
+    color: whitesmoke;
+  }
 }
