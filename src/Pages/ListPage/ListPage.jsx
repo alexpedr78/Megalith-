@@ -41,7 +41,10 @@ function ListPage() {
 
   async function handleUpdate(id, updatedMegalith) {
     try {
-      await axios.put(`${url}/megalith/${id}`, updatedMegalith);
+      await axios.put(
+        `https://project-management-first-try.adaptable.app/megalith/${id}`,
+        updatedMegalith
+      );
 
       setEditId(null); // Clear the edit state
       displayMegalith(); // Refresh the megalith list
@@ -71,7 +74,9 @@ function ListPage() {
 
   async function handleDelete(id) {
     try {
-      await axios.delete(`${url}/megalith/${id}`);
+      await axios.delete(
+        `https://project-management-first-try.adaptable.app/megalith/${id}`
+      );
       setMegalith((prevMegalith) =>
         prevMegalith.filter((site) => site.id !== id)
       );

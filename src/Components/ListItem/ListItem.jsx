@@ -58,7 +58,7 @@ function ListItem({
         <button className="button-55" onClick={() => setMap(!map)}>
           Map
         </button>
-        <button className="button-55" onClick={() => handleEdit(id, name)}>
+        <button className="button-55" onClick={() => handleEdit(id)}>
           Update
         </button>
         {editId === id ? (
