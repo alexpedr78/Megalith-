@@ -51,7 +51,7 @@ function App() {
       />
       {/* <div className="theme-switch">
         <label id="theme" htmlFor="theme-input">
-          <span className="theme-logo">🌙</span>
+          <span className="theme-logo">☀️</span>
           <input
             type="checkbox"
             id="theme-input"
@@ -59,7 +59,7 @@ function App() {
             onChange={handleChange}
           />
           <span className="theme-toggle"></span>
-          <span className="theme-logo">☀️</span>
+          <span className="theme-logo">🌙</span>
         </label>
       </div> */}
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />

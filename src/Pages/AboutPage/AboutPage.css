@@ -7,21 +7,30 @@
 .info {
   display: flex;
   color: RGB(62, 53, 5);
-  font-family: "MedievalSharp", cursive;
-  font-size: 16px;
+  font-family: "Merriweather", serif;
+  font-size: 18px;
+  font-weight: 1200;
+  font-style: normal;
+  line-height: 3rem;
   padding-right: 5rem;
   gap: 5rem;
+  border: 6px solid;
+  border-radius: 10px;
+
+  border-style: groove;
+
   /*background-color: var (--ligth-background);*/
 }
 .detail {
   background-color: var (--light-background);
+  margin-left: 2.5rem;
 }
 
-.h2 {
+/* .h2 {
   color: #3e3506;
   font-family: "MedievalSharp", cursive;
   font-size: 28px;
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   .detail {
