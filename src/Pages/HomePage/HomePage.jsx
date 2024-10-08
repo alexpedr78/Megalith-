@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Loader from "../../Components/Loader/Loader";
 import photo from "../../assets/cercle.jpg";
 import "./HomePage.css";
 function HomePage() {
@@ -15,7 +14,7 @@ function HomePage() {
     }, 3000);
   }, []);
   if (loading) {
-    return <Loader />;
+    return "loading";
   }
 
   return (

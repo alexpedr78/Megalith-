@@ -1,0 +1,63 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(171, 15, 15);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modal button {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal button:hover {
+  background-color: var(--button-hover-background-color);
+}
+/* Button Styles - Button.css */
+.button-50 {
+  border-radius: 12px;
+  color: var(--button-text-color, #0056b3); /* Default fallback to white */
+  border: 2px solid var(--button-border-color, #0056b3); /* Default fallback to darker blue */
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-50:hover {
+  background-color: var(
+    --button-hover-background-color,
+    #0056b3
+  ); /* Default fallback to darker blue */
+  transform: scale(1.05);
+}
+
+.button-53 {
+  padding: 1rem 2rem;
+  color: var(--button-primary-text, #0056b3); /* Default fallback to white */
+  border: 2px solid var(--button-border-color, #0056b3); /* Default fallback to darker blue */
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-53:hover {
+  transform: scale(1.1);
+}

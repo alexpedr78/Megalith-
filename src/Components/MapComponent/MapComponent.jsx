@@ -1,17 +1,39 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+} from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "./MapComponent.css";
-import DetailsMegalith from "../DetailsMegalith";
 import AddFavoriteButton from "../AddFavorite/AddFavorite.jsx/Addfavorite";
 import favorite from "./../../assets/favorite.png";
 import Deletefavoris from "../DeleteFavoris/Deletefavoris";
+import AddMegalithForm from "../AddMegalithWithMap/AddMegalith";
+import SelectComponent from "../SelectComponent/SelectComponent";
+import MegalithTypeOptions from "../SelectComponent/TypeOptions";
+import RegionOptions from "../SelectComponent/RegionOptions";
 import { Link } from "react-router-dom";
-let url =
-  "https://project-management-first-try.adaptable.app/megalith?_embed=favorites&";
+import RecenterButton from "../RecenterButton/RecenterButton";
+let url = "http://localhost:5000/api/megalith";
+
+// Custom Red Marker Icon
+const redIcon = new L.Icon({
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-red.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  shadowSize: [41, 41],
+});
 
 function MapComponent() {
   const [detail, setDetails] = useState(false);
@@ -19,21 +41,13 @@ function MapComponent() {
   const [type, setType] = useState("-1");
   const [region, setRegion] = useState("-1");
   const [addToggle, setAddToggle] = useState(false);
-
-  const [name, setName] = useState("");
-  const [state, setState] = useState("");
-  const [typeForm, setTypeForm] = useState("");
-  const [description, setDescription] = useState("");
-  const [village, setVillage] = useState("");
-
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    state: "",
-    typeForm: "",
-    village: "",
-    description: "",
-  });
+  const [clickedLatLng, setClickedLatLng] = useState(null); // Store clicked coordinates
+
+  useEffect(() => {
+    displayMegalith();
+  }, [type, region, selectedMarker]);
+
   async function displayMegalith() {
     let apiUrl = url;
     let params = [];
@@ -43,72 +57,32 @@ function MapComponent() {
     if (type !== "-1") {
       params.push(`type=${type}`);
     }
-    if (type === "-2" && region === "-2") {
-      params;
-    }
-    if (type === "-1" && region === "-1") {
-      return;
-    }
 
     try {
-      const response = await axios.get(apiUrl + params.join("&"));
+      const response = await axios.get(
+        apiUrl + (params.length ? "?" + params.join("&") : "")
+      );
       if (response) {
-        setFormData({
-          name: "",
-          state: "",
-          typeForm: "",
-          village: "",
-          description: "",
-        });
         setAddToggle(false);
       }
-
-      setMarkers(response.data);
+      setMarkers(response.data.data); // Updated to access 'data' from response object
     } catch (error) {
       console.log(error);
     }
   }
 
-  useEffect(() => {
-    displayMegalith();
-  }, [type, region, selectedMarker]);
-
-  const addMegalith = async (event) => {
-    event.preventDefault();
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { latitude, longitude } = position.coords;
-
-      let newMegalith = {
-        id: crypto.randomUUID(),
-        state: state,
-        type: typeForm,
-        name: name,
-        village: village,
-        description: description,
-        position: {
-          long: longitude,
-          lat: latitude,
-        },
-        // favoris: [],
-      };
-
-      try {
-        const response = await axios.post(url, newMegalith);
-        if (response) {
-          setMarkers([...markers, newMegalith]);
-          setName("");
-          setState("");
-          setTypeForm("");
-          setVillage("");
-          setDescription("");
-          setAddToggle(false);
-        } else {
-          console.error("Failed to add");
-        }
-      } catch (error) {
-        console.error(error);
+  const addMegalith = async (newMegalith) => {
+    try {
+      const response = await axios.post(url, newMegalith);
+      if (response) {
+        setMarkers([...markers, response.data]);
+        setAddToggle(false);
+      } else {
+        console.error("Failed to add");
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handlePopupButtonClick = (id) => {
@@ -118,154 +92,84 @@ function MapComponent() {
     }
   };
 
+  // Custom component to handle map click events
+  const MapClickHandler = () => {
+    useMapEvents({
+      click(e) {
+        setClickedLatLng(e.latlng);
+      },
+    });
+    return clickedLatLng ? (
+      <Marker position={[clickedLatLng.lat, clickedLatLng.lng]} icon={redIcon}>
+        <Popup>Selected Location for New Megalith</Popup>
+      </Marker>
+    ) : null;
+  };
+
   return (
     <div className="mapComponent">
       <div className="mainMapPage">
         <div className="select-category-mp">
-          <select
-            className="button-50"
-            onChange={(event) => setType(event.target.value)}
-            name=""
-            id=""
+          {/* Category Filter Component */}
+          <SelectComponent
+            label="Select by Category"
+            options={MegalithTypeOptions}
+            name="type"
             value={type}
-          >
-            <option disabled value="-1">
-              Select a Category
-            </option>
-            <option value="-2">All</option>
-            <option value="Stone Circle">Stone Circle</option>
-            <option value="Standing Stone (Menhir)">
-              Standing Stone (Menhir)
-            </option>
-            <option value="Burial Chamber or Dolmen">
-              Burial Chamber or Dolmen
-            </option>
-            <option value="Cave or Rock Shelter">Cave or Rock Shelter</option>
-            <option value="Cairn">Cairn</option>
-          </select>
+            onChange={(event) => setType(event.target.value)}
+          />
         </div>
         <div className="select-region-mp">
-          <select
-            className="button-50"
-            onChange={(event) => setRegion(event.target.value)}
-            name=""
-            id=""
+          {/* Region Filter Component */}
+          <SelectComponent
+            label="Select by Region"
+            options={RegionOptions}
+            name="region"
             value={region}
-          >
-            <option disabled value="-1">
-              Select Region
-            </option>
-            <option value="-2">All</option>
-            <option value="Occitania">Occitania</option>
-            <option value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</option>
-            <option value="Corsica">Corsica</option>
-            <option value="Provence-Alpes-Côte d'Azur">
-              Provence-Alpes-Côte d&apos;Azur
-            </option>
-            <option value="Ile-de-France">Ile-de-France</option>
-            <option value="Normandy">Normandy</option>
-            <option value="Navarre">Navarre</option>
-            <option value="Brittany">Brittany</option>
-            <option value="Hauts-de-France">Hauts-de-France</option>
-            <option value="Grand Est">Grand Est</option>
-            <option value="Centre-Val de Loire">Centre-Val de Loire</option>
-            <option value="Auvergne-Rhône-Alpes">Auvergne-Rhône-Alpes</option>
-            <option value="Pays de la Loire">Pays de la Loire</option>
-            <option value="Bourgogne-Franche-Comté">
-              Bourgogne-Franche-Comté
-            </option>
-          </select>
+            onChange={(event) => setRegion(event.target.value)}
+          />
         </div>
 
         {addToggle ? (
-          <form onSubmit={(event) => addMegalith(event)}>
-            <div className="formMapPage">
-              <label className="button-54">Name :</label>
-              <input
-                className="button-54"
-                type="text"
-                onChange={(event) => setName(event.target.value)}
-              />
-            </div>
-            <div className="formMapPage">
-              <label className="button-54">Type :</label>
-              <input
-                className="button-54"
-                type="text"
-                onChange={(event) => setTypeForm(event.target.value)}
-              />
-            </div>
-            <div className="formMapPage">
-              <label className="button-54">Village :</label>
-              <input
-                className="button-54"
-                type="text"
-                onChange={(event) => setVillage(event.target.value)}
-              />
-            </div>
-
-            <div className="formMapPage">
-              <label className="button-54">Region :</label>
-              <input
-                className="button-54"
-                type="text"
-                onChange={(event) => setState(event.target.value)}
-              />
-            </div>
-            <div className="formMapPage">
-              <label className="button-54">Description :</label>
-              <input
-                className="button-54"
-                type="text"
-                onChange={(event) => setDescription(event.target.value)}
-              />
-            </div>
-            <button className="button-53" type="submit">
-              Add your discovery
-            </button>
-          </form>
+          <AddMegalithForm
+            onSubmit={addMegalith}
+            clickedLatLng={clickedLatLng}
+            setClickedLatLng={setClickedLatLng}
+          />
         ) : null}
         <div className="AddButton-mp">
           <button
-            className="button-53"
+            className="primary-button"
             onClick={() => setAddToggle(!addToggle)}
           >
             {!addToggle ? "Add your Megalith" : "Close and Cancel"}
           </button>
         </div>
       </div>
-      <div
-        className="mapMapComponent"
-        style={{
-          height: "400px",
-          width: "400px",
-          margin: "auto",
-        }}
-      >
+      <div className="mapMapComponent responsive-map">
         <MapContainer
           center={[46.52, 2.43]}
           zoom={5}
           style={{
             height: "100%",
             width: "100%",
-            border: "2px solid",
-            borderRadius: "5px",
+            border: "2px solid #333",
+            borderRadius: "10px",
           }}
         >
           <TileLayer
             url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
             attribution='Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
           />
+          <MapClickHandler />
           <MarkerClusterGroup>
-            {markers.map((marker, index) => (
+            {markers.map((marker) => (
               <Marker
-                id={marker.id}
-                key={index + 1}
-                value={marker.id}
+                key={marker._id}
                 position={[marker.position.lat, marker.position.long]}
               >
                 <Popup>
-                  <div>
+                  <div className="popup-container">
                     <p className="popUpname">{marker.name}</p>
 
                     {marker.favorites && marker.favorites.length ? (
@@ -276,12 +180,12 @@ function MapComponent() {
                     <div>
                       {!detail ? (
                         <button
-                          className="button-52"
+                          className="secondary-button"
                           onClick={() => {
-                            handlePopupButtonClick(marker.id);
+                            handlePopupButtonClick(marker._id);
                           }}
                         >
-                          Megalith details !
+                          Megalith details!
                         </button>
                       ) : null}
                     </div>
@@ -296,7 +200,7 @@ function MapComponent() {
                         <AddFavoriteButton
                           selectedMarker={selectedMarker}
                           setSelectedMarker={setSelectedMarker}
-                          id={marker.id}
+                          id={marker._id}
                         />
                       )}
                     </div>
@@ -305,10 +209,11 @@ function MapComponent() {
               </Marker>
             ))}
           </MarkerClusterGroup>
+          <RecenterButton />
         </MapContainer>
       </div>
       {detail ? (
-        <div>
+        <div className="details-container">
           <DetailsMegalith
             setDetails={setDetails}
             megalithId={selectedMarker}

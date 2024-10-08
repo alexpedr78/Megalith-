@@ -2,13 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import "./App.css";
 import HomePage from "./Pages/HomePage/HomePage";
-import AboutPage from "./Pages/AboutPage/AboutPage";
 import FavoritePage from "./Pages/FavoritePage/FavoritePage";
 import MapPage from "./Pages/MapPage/MapPage";
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import SideBar from "./Components/SideBar/SideBar";
-import DetailsPage from "./Components/DetailsMegalith";
+
 import ListPage from "./Pages/ListPage/ListPage";
 
 function App() {
@@ -28,11 +27,12 @@ function App() {
       return "light";
     }
   });
-  function handleChange() {
-    const newTheme = theme === "ligth" ? "dark" : "ligth";
-    document.documentElement.className = newTheme;
 
+  function handleChange() {
+    const newTheme = theme === "light" ? "dark" : "light";
+    document.documentElement.className = newTheme;
     setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   }
 
   const toggleSidebar = () => {
@@ -40,22 +40,24 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="App">
       <NavBar
         toggleSidebar={toggleSidebar}
         handleChange={handleChange}
         theme={theme}
       />
-
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
-      <Routes>
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/favorites" element={<FavoritePage />} />
-        <Route path="/list" element={<ListPage />} />
-        <Route path="/list/:id" element={<DetailsPage />} />
-        <Route path="/" element={<HomePage />} />
-      </Routes>
+
+      {/* Main Content Wrapper */}
+      <div className="main-content">
+        <Routes>
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/favorites" element={<FavoritePage />} />
+          <Route path="/list" element={<ListPage />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </div>
+
       <Footer />
     </div>
   );

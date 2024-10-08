@@ -1,29 +1,19 @@
-/* ListPage Styles - ListPage.css */
-.ListPage {
-  background-color: var(--background-color);
-  color: var(--text-color);
+.select-container {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  gap: 2rem;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 300px;
 }
 
-.filterContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  padding: 1rem;
-  background-color: var(--filter-background-color);
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.paginationButtons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
+.select-component {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-background-color);
+  color: var(--input-text-color);
 }
 /* ListItem Styles - ListItem.css */
 .ListItemContainer {

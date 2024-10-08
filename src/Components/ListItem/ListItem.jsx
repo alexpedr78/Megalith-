@@ -1,128 +1,119 @@
-import OneMegaMap from "../OneMegaMap/OneMegaMap";
-import { useState } from "react";
-import Logo from "./../../assets/favorite.png";
+import React, { useEffect, useState } from "react";
+import "./ListItem.css";
+import axios from "axios";
 
 function ListItem({
   site,
-  updateDescription,
-  setUpdatedDescription,
-  updatedName,
-  setUpdatedName,
-  handleCancelEdit,
-  handleEdit,
   handleDelete,
-  handleUpdate,
   editId,
+  setEditId,
+  setMegalith,
+  megalith,
 }) {
-  const [map, setMap] = useState(false);
-  const {
-    id,
-    state,
-    type,
-    name,
-    village,
-    description,
-    position,
-    favorites,
-    comments,
-  } = site;
+  const isEditing = editId === site.id || editId === site._id;
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [updatedName, setUpdatedName] = useState(site.name);
+  const [updatedDescription, setUpdatedDescription] = useState(
+    site.description || ""
+  );
+
+  useEffect(() => {
+    if (isEditing) {
+      setUpdatedName(site.name);
+      setUpdatedDescription(site.description || "");
+    }
+  }, [isEditing, site]);
+
+  function handleCancelEdit() {
+    setEditId(null);
+  }
+
+  const handleUpdate = async () => {
+    try {
+      // Update the backend
+      const response = await axios.put(
+        `http://localhost:5000/api/megalith/${site._id}`,
+        {
+          name: updatedName,
+          description: updatedDescription,
+        }
+      );
+
+      // Update the frontend state after successful backend update
+      setMegalith((prevMegalith) =>
+        prevMegalith.map((item) =>
+          item.id === site.id || item._id === site._id
+            ? { ...item, name: updatedName, description: updatedDescription }
+            : item
+        )
+      );
+
+      // Exit the editing mode
+      setEditId(null);
+    } catch (error) {
+      console.error("Error updating the item:", error);
+    }
+  };
 
   return (
-    <article className="megalithItem" key={id}>
-      <div className="introListItem">
-        <div className="paragraph-listItem">
-          <p>{name ? `Name of the site : ${name}` : null}</p>
-          <p>{type ? `Category of the site : ${type}` : null}</p>
-          <p>{state ? `Region : ${state}` : null}</p>
-          <p>{village ? `Village : ${village}` : null}</p>
-          <p>{description ? `Description : ${description}` : null}</p>
-          {comments && comments.text
-            ? comments.map((comment, index) => (
-                <p key={index}>{comment.text}</p>
-              ))
-            : null}
-          <p>
-            {position
-              ? `Position of the site : (${
-                  position.lat ? position.lat : "N/A"
-                }, ${position.long ? position.long : "N/A"})`
-              : null}
-          </p>
-          <p>
-            {favorites && favorites.length ? <img src={Logo} alt="" /> : null}
-          </p>
+    <div className="ListItem">
+      {isEditing ? (
+        <div className="editContainer">
+          <input
+            type="text"
+            value={updatedName}
+            onChange={(e) => setUpdatedName(e.target.value)}
+            placeholder="Update name"
+          />
+          <textarea
+            value={updatedDescription}
+            onChange={(e) => setUpdatedDescription(e.target.value)}
+            placeholder="Update description"
+          />
+          <button onClick={handleUpdate}>Save</button>
+          <button onClick={handleCancelEdit}>Cancel</button>
         </div>
-        {map ? <OneMegaMap oneMega={site} /> : null}
-      </div>
-      <div className="mapUpdate-button">
-        <button className="button-55" onClick={() => setMap(!map)}>
-          Map
-        </button>
-        <button className="button-55" onClick={() => handleEdit(id)}>
-          Update
-        </button>
-        {editId === id ? (
-          <div>
-            <div>
-              <label htmlFor="">New Name</label>
-              <input
-                className="button-55"
-                type="text"
-                value={updatedName}
-                onChange={(e) => setUpdatedName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="">New Description</label>
-              <input
-                className="button-55"
-                type="text"
-                value={updateDescription}
-                onChange={(e) => setUpdatedDescription(e.target.value)}
-              />
-            </div>
-            <div className="buttonInsideEdit">
-              <button
-                className="button-55"
-                onClick={() => {
-                  handleUpdate(id, {
-                    id,
-                    state,
-                    type,
-                    name: updatedName,
-                    village,
-                    description: updateDescription,
-                    position: {
-                      long: position.long,
-                      lat: position.lat,
-                    },
-                  });
-                  setUpdatedName(""); // Reset updated name
-                  setUpdatedDescription(""); // Reset updated description
-                }}
-              >
-                Save
-              </button>
-              <button
-                className="button-55"
-                onClick={() => {
-                  handleCancelEdit();
-                  setUpdatedName(""); // Reset updated name
-                  setUpdatedDescription("");
-                }}
-              >
-                Cancel
-              </button>
-            </div>
+      ) : (
+        <div className="viewContainer">
+          <h3>{site.name}</h3>
+          <p>Type: {site.type}</p>
+          <p>State: {site.state}</p>
+          <p>Village: {site.village}</p>
+          <div className="buttonGroup">
+            <button
+              className="button-50"
+              onClick={() => setEditId(site.id || site._id)} // Set editId to open edit form
+            >
+              Edit
+            </button>
+            <button
+              className="button-53"
+              onClick={() => setShowDeleteModal(true)}
+            >
+              Delete
+            </button>
           </div>
-        ) : null}
-      </div>
-      <div className="delete-ListItem">
-        <button className="button-55" onClick={() => handleDelete(id)}>
-          Delete
-        </button>
-      </div>
-    </article>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="modal">
+          <div className="modalContent">
+            <p>Are you sure you want to delete this item?</p>
+            <button
+              onClick={() => {
+                handleDelete(site.id || site._id);
+                setShowDeleteModal(false);
+              }}
+            >
+              Yes
+            </button>
+            <button onClick={() => setShowDeleteModal(false)}>No</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
