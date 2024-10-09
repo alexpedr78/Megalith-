@@ -51,11 +51,6 @@ function SideBar({ isOpen, setIsOpen }) {
               ADMIN PAGE
             </Link>
           </li>
-          <li>
-            <Link to="/about" onClick={() => setIsOpen(false)}>
-              ABOUT
-            </Link>
-          </li>
         </ul>
       </div>
     </div>

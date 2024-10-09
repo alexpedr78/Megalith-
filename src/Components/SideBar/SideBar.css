@@ -1,7 +1,7 @@
 /* Default sidebar styles */
 .side-bar {
   position: fixed;
-  top: 0;
+  top: 50px;
   left: -250px; /* Hidden off-screen by default */
   width: 250px;
   height: 100%;
