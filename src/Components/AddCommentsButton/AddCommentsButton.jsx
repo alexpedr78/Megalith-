@@ -7,10 +7,10 @@ function AddCommentsButton({ id }) {
   async function sendComment(event) {
     event.preventDefault();
     try {
-      let response = await axios.post(
-        `https://project-management-first-try.adaptable.app/comments/`,
-        { megalithId: id, text: comment }
-      );
+      let response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}`, {
+        megalithId: id,
+        text: comment,
+      });
       setComment("");
     } catch (error) {
       console.log(error);

@@ -21,7 +21,7 @@ import MegalithTypeOptions from "../SelectComponent/TypeOptions";
 import RegionOptions from "../SelectComponent/RegionOptions";
 import { Link } from "react-router-dom";
 import RecenterButton from "../RecenterButton/RecenterButton";
-let url = "http://localhost:5000/api/megalith";
+let url = `${import.meta.env.VITE_BACKEND_URL}`;
 
 // Custom Red Marker Icon
 const redIcon = new L.Icon({

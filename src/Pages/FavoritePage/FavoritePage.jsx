@@ -8,7 +8,7 @@ function FavoritePage() {
   async function getAllFav() {
     try {
       let response = await axios.get(
-        "https://project-management-first-try.adaptable.app/megalith?_embed=favorites"
+        `${import.meta.env.VITE_BACKEND_URL}/megalith?_embed=favorites`
       );
       setFavorites(response.data);
     } catch (error) {

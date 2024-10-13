@@ -5,7 +5,7 @@ function Deletefavoris({ id, setSelectedMarker, selectedMarker }) {
   async function handleDeletefav() {
     try {
       const response = await axios.delete(
-        `https://project-management-first-try.adaptable.app/favorites/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/favorites/${id}`
       );
       setSelectedMarker(null);
       console.log("Favorite deleted successfully!");

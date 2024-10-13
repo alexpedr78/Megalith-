@@ -9,7 +9,7 @@ const AddFavoriteButton = ({ id, setSelectedMarker, selectedMarker }) => {
   const handleAddFavorite = async () => {
     try {
       await axios.post(
-        `https://project-management-first-try.adaptable.app/favorites/`,
+        `${import.meta.env.VITE_BACKEND_URL}favorites/`,
         favorite
       );
       setSelectedMarker(id);

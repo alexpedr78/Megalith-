@@ -29,7 +29,7 @@ const ListPage = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:5000/api/megalith${params}`
+          `${import.meta.env.VITE_BACKEND_URL}/megalith${params}`
         );
         setMegalith(response.data.data);
       } catch (error) {

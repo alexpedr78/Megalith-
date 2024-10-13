@@ -32,7 +32,7 @@ function ListItem({
     try {
       // Update the backend
       const response = await axios.put(
-        `http://localhost:5000/api/megalith/${site._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/megalith/${site._id}`,
         {
           name: updatedName,
           description: updatedDescription,
