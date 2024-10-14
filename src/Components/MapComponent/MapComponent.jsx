@@ -52,10 +52,10 @@ function MapComponent() {
     let apiUrl = url;
     let params = [];
     if (region !== "-1") {
-      params.push(`state=${encodeURIComponent(region)}`);
+      params.push(`state=${region}`);
     }
     if (type !== "-1") {
-      params.push(`type=${encodeURIComponent(type)}`);
+      params.push(`type=${type}`);
     }
 
     try {
