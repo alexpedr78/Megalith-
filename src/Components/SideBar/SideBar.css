@@ -5,7 +5,7 @@
   left: -250px; /* Hidden off-screen by default */
   width: 250px;
   height: 100%;
-  background-color: #3e3505;
+  background-color: #626258;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
   transition: left 0.3s ease;
   z-index: 1000;

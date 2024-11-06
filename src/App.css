@@ -1,4 +1,44 @@
 * {
   margin: 0;
   box-sizing: border-box;
+  font-family: "Noto";
+}
+.html {
+  background-color: #626258;
+}
+.main-content {
+  background-color: #626258;
+}
+/* Button Colors */
+.button-50 {
+  background-color: #468189; /* Muted Teal */
+  color: #fff;
+}
+.button-50:hover {
+  background-color: #386f6e; /* Darker teal for hover */
+}
+
+.button-53 {
+  background-color: #d98b8a; /* Soft Coral */
+  color: #fff;
+}
+.button-53:hover {
+  background-color: #bf7675; /* Darker coral */
+}
+
+/* Modal Button Colors */
+.modalContent button:first-child {
+  background-color: #6b8e8d; /* Slate Green */
+  color: #fff;
+}
+.modalContent button:first-child:hover {
+  background-color: #5a7978; /* Darker slate green */
+}
+
+.modalContent button:last-child {
+  background-color: #b0a18a; /* Warm Beige */
+  color: #333; /* Dark text for contrast */
+}
+.modalContent button:last-child:hover {
+  background-color: #99876f; /* Slightly darker beige */
 }

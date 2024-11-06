@@ -1,65 +1,71 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useState } from "react";
-import "./App.css";
+import { LoadScript } from "@react-google-maps/api";
+//
 import HomePage from "./Pages/HomePage/HomePage";
 import FavoritePage from "./Pages/FavoritePage/FavoritePage";
 import MapPage from "./Pages/MapPage/MapPage";
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
+import InfosPage from "./Pages/Infos/InfosPage";
 import SideBar from "./Components/SideBar/SideBar";
-
 import ListPage from "./Pages/ListPage/ListPage";
+import DetailPage from "./Pages/DetailPage/DetailPage.jsx";
+import "./App.css";
 
 function App() {
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  console.log("google", apiKey);
   const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    const currentTheme = localStorage.getItem("theme");
+  const location = useLocation(); // Use `useLocation` to track current path
+  // const [theme, setTheme] = useState(() => {
+  //   const currentTheme = localStorage.getItem("theme");
 
-    if (currentTheme) {
-      document.documentElement.className = currentTheme;
-      return currentTheme;
-    }
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      document.documentElement.className = "dark";
-      return "dark";
-    } else {
-      document.documentElement.className = "light";
-      return "light";
-    }
-  });
+  //   if (currentTheme) {
+  //     document.documentElement.className = currentTheme;
+  //     return currentTheme;
+  //   }
+  //   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  //     document.documentElement.className = "dark";
+  //     return "dark";
+  //   } else {
+  //     document.documentElement.className = "light";
+  //     return "light";
+  //   }
+  // });
 
-  function handleChange() {
-    const newTheme = theme === "light" ? "dark" : "light";
-    document.documentElement.className = newTheme;
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  }
+  // function handleChange() {
+  //   const newTheme = theme === "light" ? "dark" : "light";
+  //   document.documentElement.className = newTheme;
+  //   setTheme(newTheme);
+  //   localStorage.setItem("theme", newTheme);
+  // }
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <div className="App">
-      <NavBar
-        toggleSidebar={toggleSidebar}
-        handleChange={handleChange}
-        theme={theme}
-      />
-      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+    <LoadScript googleMapsApiKey={apiKey} libraries={["marker"]}>
+      <div className="App">
+        {location.pathname !== "/" && <NavBar toggleSidebar={toggleSidebar} />}
 
-      {/* Main Content Wrapper */}
-      <div className="main-content">
-        <Routes>
-          <Route path="/map" element={<MapPage />} />
-          <Route path="/favorites" element={<FavoritePage />} />
-          <Route path="/list" element={<ListPage />} />
-          <Route path="/" element={<HomePage />} />
-        </Routes>
+        <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+
+        <div className="main-content">
+          <Routes>
+            <Route path="/map" element={<MapPage />} />
+            <Route path="/infos" element={<InfosPage />} />
+            <Route path="/favorites" element={<FavoritePage />} />
+            <Route path="/list" element={<ListPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/detail" element={<DetailPage />} />
+          </Routes>
+        </div>
+
+        {/* <Footer /> */}
       </div>
-
-      <Footer />
-    </div>
+    </LoadScript>
   );
 }
 

@@ -1,72 +1,151 @@
-/* ListPage Styles - ListPage.css */
-.ListPage {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 2rem;
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
+/* Page Container */
+.ListPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter Container */
 .filterContainer {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  width: 100%; /* Change from 100vh to 100% */
+  max-width: 100%;
+  justify-content: space-between;
+  gap: 20px;
   justify-content: center;
-  padding: 1rem;
-  background-color: var(--filter-background-color);
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #333;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
-.paginationButtons {
+/* SearchBar Styling */
+.SearchBar {
+  flex: 1 1 100%;
+  max-width: 600px;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-/* ListItem Styles - ListItem.css */
-.ListItemContainer {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  padding-top: 1rem;
-  margin-top: 1rem;
-  background-color: var(--background-color);
+  gap: 10px;
 }
 
-.ListItem {
-  background: linear-gradient(90deg, rgb(182, 170, 112) 91%);
-  border: 1px solid #000;
+.SearchBar input {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  padding: 1rem;
-  text-align: center;
-  color: var(--light-text);
-  font-family: Arial, sans-serif;
+  font-size: 1rem;
+}
+
+.SearchBar button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #0056b3;
+  color: white;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.3s;
+}
+
+.SearchBar button:hover {
+  background-color: #003e82;
+}
+
+/* Dropdown Select Styling */
+.selectInput {
+  flex: 1 1 200px;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* List Item Container */
+.ListItemContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Individual List Item Styling */
+.ListItem {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s;
 }
 
 .ListItem:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.introListItem {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+/* ListItem Content */
+.ListItem h3 {
+  font-size: 1.2rem;
+  margin: 0 0 10px;
+  color: #333;
 }
 
-.paragraph-listItem {
-  text-align: justify;
-  align-self: center;
-  padding: 0.5rem;
+.ListItem p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Buttons */
+.ListItem .actionButton {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ListItem .deleteButton {
+  background-color: #d9534f;
+  color: white;
+}
+
+.ListItem .editButton {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.ListItem .actionButton:hover {
+  opacity: 0.8;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .filterContainer,
+  .ListItemContainer {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .SearchBar {
+    flex-direction: column;
+  }
+
+  .SearchBar input,
+  .SearchBar button {
+    width: 100%;
+  }
 }

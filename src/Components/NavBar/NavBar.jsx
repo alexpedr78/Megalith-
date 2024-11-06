@@ -9,7 +9,7 @@ function NavBar({ toggleSidebar, handleChange, theme }) {
           <img src={logo} alt="Logo" className="logo" />
         </button>
       </div>
-      <div className="theme-switch">
+      {/* <div className="theme-switch">
         <label id="theme" htmlFor="theme-input">
           <span className="theme-logo">🌙</span>
           <input
@@ -21,7 +21,7 @@ function NavBar({ toggleSidebar, handleChange, theme }) {
           <span className="theme-toggle"></span>
           <span className="theme-logo">☀️</span>
         </label>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,0 +1,58 @@
+/* Main Container */
+.infos-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 30px;
+  gap: 20px;
+  background-color: #626258;
+}
+
+/* Card Styling */
+.card {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+  color: white;
+  max-width: 350px;
+  flex-grow: 1;
+}
+
+/* Card Hover Effect */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Specific Card Colors */
+.carousel-card {
+  background-color: #333333; /* Yellow for visual focus */
+}
+
+.explanation-card {
+  background-color: #333333; /* Light purple */
+}
+
+.data-source-card {
+  background-color: #333333; /* Light blue */
+}
+
+.shop-card {
+  background-color: #333333; /* Light green */
+}
+
+/* Carousel Placeholder */
+.carousel-card p {
+  font-style: italic;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .infos-page {
+    flex-direction: column;
+    align-items: center;
+  }
+}

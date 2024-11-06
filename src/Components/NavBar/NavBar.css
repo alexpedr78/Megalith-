@@ -1,12 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap");
 
 .navbar {
-  background: linear-gradient(
-    90deg,
-    rgb(62, 53, 5) 42%,
-    /* Couleur plus foncée */ rgba(206, 198, 186, 1) 91%
-      /* Couleur plus claire */
-  );
+  background: #626258;
 
   width: 100%;
   padding: 0px 15px;

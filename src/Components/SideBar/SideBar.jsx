@@ -7,7 +7,6 @@ function SideBar({ isOpen, setIsOpen }) {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      // Ensure the click outside functionality is triggered
       if (event.target.className === "logo") {
         return;
       }
@@ -22,7 +21,6 @@ function SideBar({ isOpen, setIsOpen }) {
       document.removeEventListener("click", handleClickOutside);
     }
 
-    // Cleanup event listener when component unmounts
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };

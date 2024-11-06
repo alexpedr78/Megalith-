@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios"; // Don't forget to import axios
+import axios from "axios";
 
 function Deletefavoris({ id, setSelectedMarker, selectedMarker }) {
   async function handleDeletefav() {

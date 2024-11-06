@@ -1,41 +1,30 @@
-import { useMap } from "react-leaflet";
-import { useEffect, useState } from "react";
+import React from "react";
 
-function RecenterButton() {
-  const map = useMap();
-  const [userLocation, setUserLocation] = useState(null);
-
-  // Function to handle clicking the recenter button
-  const recenterMap = () => {
-    if (userLocation) {
-      map.setView([userLocation.lat, userLocation.lng], 13); // Set zoom level to 13 when recentering
-    } else {
-      console.error("User location not found");
-    }
-  };
-
-  // Get the user's current location using Geolocation API
-  useEffect(() => {
-    if (navigator.geolocation) {
+const RecenterButton = ({ map }) => {
+  const handleRecenter = () => {
+    if (navigator.geolocation && map) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
+          map.panTo({ lat: latitude, lng: longitude });
+          map.setZoom(10);
         },
-        (error) => {
-          console.error("Error getting user location:", error);
+        () => {
+          alert("Unable to retrieve your location.");
         }
       );
     } else {
-      console.error("Geolocation is not supported by this browser.");
+      alert(
+        "Geolocation is not supported by this browser or map is not loaded."
+      );
     }
-  }, []);
+  };
 
   return (
-    <button className="recenter-btn" onClick={recenterMap}>
-      Recenter
+    <button onClick={handleRecenter} className="recenter-button">
+      Recenter to My Location
     </button>
   );
-}
+};
 
 export default RecenterButton;

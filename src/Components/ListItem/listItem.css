@@ -1,63 +1,150 @@
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgb(171, 15, 15);
-  padding: 2rem;
+/* General Styling for ListItem */
+.ListItem {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin: 15px 0;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+.ListItem:hover {
+  transform: translateY(-4px);
 }
 
-.modalContent {
+/* Edit Mode Container Styling */
+.editContainer,
+.viewContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  gap: 10px;
 }
 
-.modal button {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background-color: var(--button-background-color);
-  color: var(--button-text-color);
+/* Title and Description */
+.ListItem h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+}
+.ListItem p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Input and Textarea Styling */
+.editContainer input,
+.editContainer textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #333;
+  resize: vertical;
+}
+.editContainer input:focus,
+.editContainer textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Button Group Styling */
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Primary Button Styles */
+.button-50 {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
   border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
-.modal button:hover {
-  background-color: var(--button-hover-background-color);
-}
-/* Button Styles - Button.css */
-.button-50 {
-  border-radius: 12px;
-  color: var(--button-text-color, #0056b3); /* Default fallback to white */
-  border: 2px solid var(--button-border-color, #0056b3); /* Default fallback to darker blue */
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
 .button-50:hover {
-  background-color: var(
-    --button-hover-background-color,
-    #0056b3
-  ); /* Default fallback to darker blue */
-  transform: scale(1.05);
+  background-color: #0056b3;
 }
 
+/* Secondary Button Styles */
 .button-53 {
-  padding: 1rem 2rem;
-  color: var(--button-primary-text, #0056b3); /* Default fallback to white */
-  border: 2px solid var(--button-border-color, #0056b3); /* Default fallback to darker blue */
-  border-radius: 12px;
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
+}
+.button-53:hover {
+  background-color: #c82333;
 }
 
-.button-53:hover {
-  transform: scale(1.1);
+/* Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modalContent {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.modalContent p {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+.modalContent button {
+  padding: 10px 15px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.modalContent button:first-child {
+  background-color: #007bff;
+  color: #fff;
+}
+.modalContent button:first-child:hover {
+  background-color: #0056b3;
+}
+.modalContent button:last-child {
+  background-color: #6c757d;
+  color: #fff;
+}
+.modalContent button:last-child:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .ListItem {
+    padding: 15px;
+  }
+  .ListItem h3 {
+    font-size: 1.3rem;
+  }
+  .modalContent {
+    width: 100%;
+    padding: 15px;
+  }
 }

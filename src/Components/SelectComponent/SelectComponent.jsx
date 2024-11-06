@@ -1,7 +1,15 @@
 import React from "react";
+import { useState } from "react";
 import "./SelectComponent.css";
 
-function SelectComponent({ label, options, value, onChange }) {
+function SelectComponent({
+  label,
+  options,
+  value,
+  onChange,
+  addToggle,
+  setAddToggle,
+}) {
   return (
     <div className="selectComponent">
       <label className="selectLabel">{label}</label>

@@ -4,52 +4,57 @@ import SelectComponent from "../../Components/SelectComponent/SelectComponent";
 import RegionOptions from "../../Components/SelectComponent/RegionOptions";
 import TypeOptions from "../../Components/SelectComponent/TypeOptions";
 import ListItem from "../../Components/ListItem/ListItem.jsx";
+import SearchBar from "../../Components/SearchBar/SearchBar.jsx";
 import "./ListPage.css";
+import LoadingSpinner from "../../Components/Loader/Loader.jsx";
 
 const ListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [megalith, setMegalith] = useState([]);
-  const [site, setSite] = useState(""); // Search term for name
+  const [site, setSite] = useState("");
   const [selectValue, setSelectValue] = useState("-1");
   const [selectValueRegion, setSelectValueRegion] = useState("-1");
   const [editId, setEditId] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchMegaliths = async () => {
+    setLoading(true);
+    try {
+      let params = `?_limit=25&_page=${currentPage}`;
+      if (site) params += `&name=${encodeURIComponent(site)}`;
+      if (selectValue !== "-1")
+        params += `&type=${encodeURIComponent(selectValue)}`;
+      if (selectValueRegion !== "-1")
+        params += `&state=${encodeURIComponent(selectValueRegion)}`;
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/megalith${params}`
+      );
+      setMegalith(response.data.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchMegaliths = async () => {
-      try {
-        let params = `?_limit=25&_page=${currentPage}`;
-        if (site) {
-          params += `&name=${encodeURIComponent(site)}`;
-        }
-        if (selectValue !== "-1") {
-          params += `&type=${encodeURIComponent(selectValue)}`;
-        }
-        if (selectValueRegion !== "-1") {
-          params += `&state=${encodeURIComponent(selectValueRegion)}`;
-        }
-
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/megalith${params}`
-        );
-        setMegalith(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    // Debounce: delay the request by 1 second
     const delayFetch = setTimeout(() => {
       fetchMegaliths();
-    }, 1000); // 1 second delay
+    }, 500);
 
-    // Cleanup timeout if the component re-renders before the 1 second delay is up
     return () => clearTimeout(delayFetch);
   }, [site, currentPage, selectValue, selectValueRegion]);
 
   const handleDelete = async (id) => {
+    console.log(id);
     try {
-      await axios.delete(`http://localhost:5000/api/megalith/${id}`);
-      setMegalith(megalith.filter((item) => item.id !== id));
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/megalith/${id}`
+      );
+      setMegalith((prevMegalith) =>
+        prevMegalith.filter((item) => item._id !== id)
+      );
     } catch (error) {
       console.error("Error deleting the item:", error);
     }
@@ -61,24 +66,17 @@ const ListPage = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setCurrentPage(1); // Optionally reset the page to 1 when searching
+    setCurrentPage(1);
   };
 
   return (
     <div className="ListPage">
       <div className="filterContainer">
-        <form onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
-            placeholder="Search by name"
-            value={site}
-            onChange={handleSearchChange}
-            className="searchInput"
-          />
-          <button type="submit" className="searchButton">
-            Search
-          </button>
-        </form>
+        <SearchBar
+          value={site}
+          onChange={handleSearchChange}
+          onSubmit={handleSearchSubmit}
+        />
         <SelectComponent
           label="Select by Category"
           options={TypeOptions}
@@ -92,19 +90,23 @@ const ListPage = () => {
           onChange={(e) => setSelectValueRegion(e.target.value)}
         />
       </div>
-      <div className="ListItemContainer">
-        {megalith.map((item) => (
-          <ListItem
-            key={item.id || item._id}
-            site={item}
-            editId={editId}
-            setEditId={setEditId}
-            setMegalith={setMegalith}
-            megalith={megalith}
-            handleDelete={() => handleDelete(item.id || item._id)}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="ListItemContainer">
+          {megalith.map((item) => (
+            <ListItem
+              key={item._id}
+              site={item}
+              editId={editId}
+              setEditId={setEditId}
+              setMegalith={setMegalith}
+              megalith={megalith}
+              handleDelete={() => handleDelete(item._id)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

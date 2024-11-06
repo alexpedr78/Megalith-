@@ -1,35 +1,57 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import "./CommentForm.css";
 
-function AddCommentsButton({ id }) {
-  const [comment, setComment] = useState("");
-  async function sendComment(event) {
-    event.preventDefault();
-    try {
-      let response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}`, {
-        megalithId: id,
-        text: comment,
-      });
-      setComment("");
-    } catch (error) {
-      console.log(error);
+const CommentForm = ({ megalithId, onCommentAdded }) => {
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!text.trim()) {
+      setError("Comment text is required.");
+      return;
     }
-  }
-  return (
-    <div>
-      <form onSubmit={(event) => sendComment(event)}>
-        <label htmlFor="">write a comment</label>
-        <br />
-        <input
-          onChange={(event) => setComment(event.target.value)}
-          type="text"
-          value={comment}
-        />
-        <button>Send</button>
-      </form>
-    </div>
-  );
-}
 
-export default AddCommentsButton;
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/comments`,
+        {
+          megalithId,
+          text,
+        }
+      );
+
+      if (response.status === 201) {
+        setText("");
+        onCommentAdded(response.data);
+      }
+    } catch (err) {
+      setError("Failed to post the comment. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form className="comment-form" onSubmit={handleSubmit}>
+      <textarea
+        className="comment-textarea"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Add a comment..."
+      ></textarea>
+      {error && <p className="error-message">{error}</p>}
+      <button className="submit-button" type="submit" disabled={loading}>
+        {loading ? "Posting..." : "Submit Comment"}
+      </button>
+    </form>
+  );
+};
+
+export default CommentForm;
