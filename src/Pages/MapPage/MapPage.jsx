@@ -35,7 +35,7 @@ function MapComponent() {
   }, [type, region]);
 
   async function fetchMarkers() {
-    const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/megalith/map`;
+    const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/megalith/map`;
     let params = [];
     if (type !== "-1") params.push(`type=${type}`);
     if (region !== "-1") params.push(`state=${region}`);
