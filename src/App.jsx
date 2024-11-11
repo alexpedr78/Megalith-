@@ -12,7 +12,7 @@ import SideBar from "./Components/SideBar/SideBar";
 import ListPage from "./Pages/ListPage/ListPage";
 import DetailPage from "./Pages/DetailPage/DetailPage.jsx";
 import "./App.css";
-
+const LIBRARIES = ["places", "marker"];
 function App() {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   console.log("google", apiKey);
@@ -46,7 +46,7 @@ function App() {
   };
 
   return (
-    <LoadScript googleMapsApiKey={apiKey} libraries={["marker"]}>
+    <LoadScript googleMapsApiKey={apiKey} libraries={LIBRARIES}>
       <div className="App">
         {location.pathname !== "/" && <NavBar toggleSidebar={toggleSidebar} />}
 
