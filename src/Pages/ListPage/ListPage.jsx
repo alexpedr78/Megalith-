@@ -31,7 +31,7 @@ const ListPage = () => {
         params += `&state=${encodeURIComponent(selectValueRegion)}`;
 
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/megalith${params}`
+        `${import.meta.env.VITE_BACKEND_URL}/megalith${params}`
       );
       setMegalith(response.data.data);
     } catch (error) {
