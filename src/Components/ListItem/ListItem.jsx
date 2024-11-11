@@ -29,7 +29,7 @@ function ListItem({
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/megalith/${site._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/megalith/${site._id}`,
         updatedFields
       );
 
