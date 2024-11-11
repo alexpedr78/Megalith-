@@ -149,3 +149,21 @@ body {
     width: 100%;
   }
 }
+.scrollToTopButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: opacity 0.3s;
+}
+
+.scrollToTopButton:hover {
+  background-color: #0056b3;
+}

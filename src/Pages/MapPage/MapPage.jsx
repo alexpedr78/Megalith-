@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 import axios from "axios";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import favorite from "../../assets/favorite.png";
 import "./MapPage.css";
 import SelectComponent from "../../Components/SelectComponent/SelectComponent.jsx";
@@ -9,11 +9,8 @@ import MegalithTypeOptions from "../../Components/SelectComponent/TypeOptions.js
 import RegionOptions from "../../Components/SelectComponent/RegionOptions.jsx";
 import AddMegalithForm from "../../Components/AddMegalith/addMegalithForm.jsx";
 import AddFavoriteButton from "../../Components/AddFavorite/AddFavorite.jsx/Addfavorite.jsx";
-import RecenterButton from "../../Components/RecenterButton/RecenterButton.jsx";
 import CommentForm from "../../Components/AddCommentsButton/AddCommentsButton.jsx";
 
-import ListItem from "../../Components/ListItem/ListItem.jsx";
-import { useNavigate } from "react-router-dom";
 const mapContainerStyle = {
   height: "60vh",
   width: "100%",
@@ -25,7 +22,6 @@ const mapContainerStyle = {
 const center = { lat: 46.52, lng: 2.43 };
 
 function MapComponent() {
-  const [megalithDetail, setMegalithDetail] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [map, setMap] = useState(null);
@@ -54,7 +50,7 @@ function MapComponent() {
     }
   }
 
-  const handleFindLocation = () => {
+  const handleFindLocation = useCallback(() => {
     if (navigator.geolocation && map) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -69,29 +65,35 @@ function MapComponent() {
         "Geolocation is not supported by this browser or the map is not loaded yet."
       );
     }
-  };
+  }, [map]);
 
-  const handleAddComment = async (newComment) => {
-    if (selectedMarker) {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/comments`,
-          {
-            megalithId: selectedMarker._id,
-            text: newComment,
-          }
-        );
+  const addLocationButton = useCallback(() => {
+    if (map) {
+      const locationButton = document.createElement("div");
+      locationButton.className = "custom-location-button";
+      locationButton.textContent = "My Location";
+      locationButton.style.backgroundColor = "#fff";
+      locationButton.style.border = "2px solid #fff";
+      locationButton.style.borderRadius = "3px";
+      locationButton.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+      locationButton.style.cursor = "pointer";
+      locationButton.style.margin = "10px";
+      locationButton.style.padding = "6px";
+      locationButton.style.textAlign = "center";
 
-        setSelectedMarker((prev) => ({
-          ...prev,
-          comments: [...(prev.comments || []), response.data],
-        }));
-      } catch (error) {
-        console.error("Error adding comment:", error);
-      }
+      locationButton.addEventListener("click", handleFindLocation);
+      map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(
+        locationButton
+      );
     }
-  };
+  }, [map, handleFindLocation]);
+
+  useEffect(() => {
+    if (map) addLocationButton();
+  }, [map, addLocationButton]);
+
   const navigate = useNavigate();
+
   return (
     <div className="mapComponent">
       <div className="filterContainer">
@@ -143,11 +145,15 @@ function MapComponent() {
             }}
             onCloseClick={() => setSelectedMarker(null)}
           >
-            <div className="popup-container">
-              <p className="popUpname">{selectedMarker.name}</p>
+            <div className="infoWindow-container">
+              <h3 className="infoWindow-title">{selectedMarker.name}</h3>
               {selectedMarker.favorites?.length > 0 && (
                 <Link to="/favorites">
-                  <img src={favorite} className="favori" alt="Favorite" />
+                  <img
+                    src="./favorite.png"
+                    className="infoWindow-favorite"
+                    alt="Favorite"
+                  />
                 </Link>
               )}
               <AddFavoriteButton
@@ -156,7 +162,7 @@ function MapComponent() {
                 id={selectedMarker._id}
               />
               <button
-                className="secondary-button"
+                className="infoWindow-button"
                 onClick={() => setAddComment(!addComment)}
               >
                 {addComment ? "Cancel" : "Add Comment"}
@@ -168,16 +174,17 @@ function MapComponent() {
                 />
               )}
               <button
-                className="secondary-button"
-                onClick={() => navigate("../detail")}
+                className="infoWindow-button"
+                onClick={() =>
+                  navigate("../detail", { state: { site: selectedMarker } })
+                }
               >
-                Megalith details!
+                Megalith Details
               </button>
             </div>
           </InfoWindow>
         )}
       </GoogleMap>
-
       <div className="AddButton-mp">
         <button
           className="find-location-button"
@@ -185,7 +192,9 @@ function MapComponent() {
         >
           {!addToggle ? "Add your Megalith" : "Close and Cancel"}
         </button>
-        <RecenterButton map={map} />
+        <button className="recenter-button" onClick={handleFindLocation}>
+          My Location
+        </button>
       </div>
     </div>
   );

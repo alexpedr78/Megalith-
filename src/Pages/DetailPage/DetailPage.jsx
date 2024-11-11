@@ -2,10 +2,14 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { LoadScript } from "@react-google-maps/api";
 import ListItem from "../../Components/ListItem/ListItem";
-
 import "../../App.css";
-import { div } from "three/examples/jsm/nodes/Nodes.js";
-function detailPage(site) {
-  return <ListItem></ListItem>;
+
+function detailPage() {
+  const location = useLocation();
+  const { site } = location.state || {};
+  if (!site) {
+    return <div>No data available for this site.</div>;
+  }
+  return <ListItem site={site}></ListItem>;
 }
 export default detailPage;

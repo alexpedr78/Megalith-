@@ -94,3 +94,42 @@
     padding: 12px;
   }
 }
+.megalith-registration-form {
+  background-color: #2e2b28; /* Dark stone-like background */
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #a47e3c; /* Earthy border color */
+  color: #f4f4f4;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  font-size: 1em;
+  color: #d4c7a3; /* Light earthy color */
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-input,
+.form-textarea,
+.submit-button,
+.form-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #5b4e3b;
+  background-color: #3c3a37;
+  color: #f4f4f4;
+  font-size: 1em;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #a47e3c;
+}

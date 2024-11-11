@@ -159,3 +159,45 @@ body {
   justify-content: center;
   gap: 25%;
 }
+.infoWindow-container {
+  background-color: #2e2b28; /* Dark stone-like background */
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 200px;
+  border: 2px solid #a47e3c; /* Earthy border color */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  color: #f4f4f4;
+}
+
+.infoWindow-title {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  color: #d4c7a3; /* Light earthy color for text */
+}
+
+.infoWindow-favorite {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+}
+
+.infoWindow-button {
+  display: block;
+  margin-top: 10px;
+  background-color: #5b4e3b; /* Subtle earthy color */
+  color: #f4f4f4;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.infoWindow-button:hover {
+  background-color: #a47e3c; /* Slightly lighter shade on hover */
+}
+
+.popup-container p {
+  font-size: 0.9em;
+  margin-top: 4px;
+}

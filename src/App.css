@@ -1,13 +1,14 @@
 * {
   margin: 0;
   box-sizing: border-box;
-  font-family: "Noto";
+  font-family: "Itim";
 }
 .html {
   background-color: #626258;
 }
 .main-content {
   background-color: #626258;
+  height: 100vh;
 }
 /* Button Colors */
 .button-50 {

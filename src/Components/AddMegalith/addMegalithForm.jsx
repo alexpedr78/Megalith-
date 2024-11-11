@@ -120,7 +120,7 @@ const MegalithRegistrationForm = ({
         </div>
       )}
 
-      <button type="submit" className="find-location-button">
+      <button type="submit" className="submit-button">
         Register Megalith
       </button>
     </form>

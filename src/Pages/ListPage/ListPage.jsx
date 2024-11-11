@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import SelectComponent from "../../Components/SelectComponent/SelectComponent";
 import RegionOptions from "../../Components/SelectComponent/RegionOptions";
@@ -14,11 +14,14 @@ const ListPage = () => {
   const [site, setSite] = useState("");
   const [selectValue, setSelectValue] = useState("-1");
   const [selectValueRegion, setSelectValueRegion] = useState("-1");
-  const [editId, setEditId] = useState(null);
+  // const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [showTopButton, setShowTopButton] = useState(false);
 
-  const fetchMegaliths = async () => {
+  const fetchMegaliths = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       let params = `?_limit=25&_page=${currentPage}`;
       if (site) params += `&name=${encodeURIComponent(site)}`;
@@ -33,10 +36,11 @@ const ListPage = () => {
       setMegalith(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setError("An error occurred while fetching data.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, site, selectValue, selectValueRegion]);
 
   useEffect(() => {
     const delayFetch = setTimeout(() => {
@@ -44,10 +48,21 @@ const ListPage = () => {
     }, 500);
 
     return () => clearTimeout(delayFetch);
-  }, [site, currentPage, selectValue, selectValueRegion]);
+  }, [fetchMegaliths]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowTopButton(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleDelete = async (id) => {
-    console.log(id);
     try {
       await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/api/megalith/${id}`
@@ -57,6 +72,7 @@ const ListPage = () => {
       );
     } catch (error) {
       console.error("Error deleting the item:", error);
+      setError("Failed to delete item.");
     }
   };
 
@@ -68,6 +84,10 @@ const ListPage = () => {
     e.preventDefault();
     setCurrentPage(1);
   };
+
+  const handleNextPage = () => setCurrentPage((prev) => prev + 1);
+  const handlePreviousPage = () =>
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
 
   return (
     <div className="ListPage">
@@ -90,23 +110,41 @@ const ListPage = () => {
           onChange={(e) => setSelectValueRegion(e.target.value)}
         />
       </div>
+      {showTopButton && (
+        <button className="scrollToTopButton" onClick={scrollToTop}>
+          Go to Top
+        </button>
+      )}
       {loading ? (
         <LoadingSpinner />
       ) : (
         <div className="ListItemContainer">
-          {megalith.map((item) => (
-            <ListItem
-              key={item._id}
-              site={item}
-              editId={editId}
-              setEditId={setEditId}
-              setMegalith={setMegalith}
-              megalith={megalith}
-              handleDelete={() => handleDelete(item._id)}
-            />
-          ))}
+          {error ? (
+            <div className="errorMessage">{error}</div>
+          ) : megalith.length > 0 ? (
+            megalith.map((item) => (
+              <ListItem
+                key={item._id}
+                site={item}
+                // editId={editId}
+                // setEditId={setEditId}
+                setMegalith={setMegalith}
+                megalith={megalith}
+                handleDelete={() => handleDelete(item._id)}
+              />
+            ))
+          ) : (
+            <div className="noResults">No results found</div>
+          )}
         </div>
       )}
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span>Page {currentPage}</span>
+        <button onClick={handleNextPage}>Next</button>
+      </div>
     </div>
   );
 };

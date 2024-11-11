@@ -35,6 +35,31 @@ function MiniMap({ lat, lng }) {
     }
   }, [isLoaded, position]);
 
+  const handleLocationButton = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          mapRef.current.panTo(userPosition);
+          mapRef.current.setZoom(14);
+
+          // Optionally, add a marker for user's location
+          new google.maps.Marker({
+            position: userPosition,
+            map: mapRef.current,
+            title: "You are here",
+          });
+        },
+        () => alert("Could not get your location")
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
+
   if (loadError) return <div>Error loading map</div>;
   if (!isLoaded) return <div>Loading map...</div>;
 
@@ -45,10 +70,31 @@ function MiniMap({ lat, lng }) {
       zoom={12}
       onLoad={(map) => {
         mapRef.current = map;
+
+        // Adding a custom My Location button to the map
+        const locationButtonDiv = document.createElement("div");
+        locationButtonDiv.className = "custom-location-button";
+        locationButtonDiv.textContent = "My Location";
+        locationButtonDiv.style.padding = "10px";
+        locationButtonDiv.style.margin = "10px";
+        locationButtonDiv.style.backgroundColor = "#fff";
+        locationButtonDiv.style.cursor = "pointer";
+        locationButtonDiv.style.borderRadius = "5px";
+        locationButtonDiv.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+
+        locationButtonDiv.addEventListener("click", handleLocationButton);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+          locationButtonDiv
+        );
       }}
       options={{
-        disableDefaultUI: true,
-        gestureHandling: "none",
+        disableDefaultUI: false,
+        gestureHandling: "auto",
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: true,
+        fullscreenControl: false,
+        clickableIcons: true,
       }}
     />
   );

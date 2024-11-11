@@ -6,10 +6,10 @@ import MiniMap from "../MiniMap/MiniMap";
 function ListItem({
   site,
   handleDelete,
-  editId,
-  setEditId,
+  // editId,
+  // setEditId,
   setMegalith,
-  megalith,
+  // megalith,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -17,7 +17,7 @@ function ListItem({
     name: site.name,
     description: site.description || "",
   });
-
+  const [editId, setEditId] = useState(null);
   useEffect(() => {
     if (editId === site._id || editId === site.id) setIsEditing(true);
     else setIsEditing(false);
