@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import favorite from "../../assets/favorite.png";
 import "./MapPage.css";
 import SelectComponent from "../../Components/SelectComponent/SelectComponent.jsx";
 import MegalithTypeOptions from "../../Components/SelectComponent/TypeOptions.jsx";
@@ -176,7 +175,9 @@ function MapComponent() {
               <button
                 className="infoWindow-button"
                 onClick={() =>
-                  navigate("../detail", { state: { site: selectedMarker } })
+                  navigate("/detail/" + selectedMarker._id, {
+                    state: { site: selectedMarker },
+                  })
                 }
               >
                 Megalith Details

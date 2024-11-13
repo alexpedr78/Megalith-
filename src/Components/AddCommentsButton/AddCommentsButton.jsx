@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./CommentForm.css";
 
-const CommentForm = ({ megalithId, onCommentAdded }) => {
+const CommentForm = ({ megalithId, addComment }) => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,17 +20,15 @@ const CommentForm = ({ megalithId, onCommentAdded }) => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/comments`,
+        `${import.meta.env.VITE_BACKEND_URL}/comments`,
         {
           megalithId,
           text,
         }
       );
 
-      if (response.status === 201) {
-        setText("");
-        onCommentAdded(response.data);
-      }
+      addComment(response.data);
+      setText("");
     } catch (err) {
       setError("Failed to post the comment. Please try again.");
     } finally {

@@ -2,29 +2,47 @@ import React, { useEffect, useState } from "react";
 import "./listItem.css";
 import axios from "axios";
 import MiniMap from "../MiniMap/MiniMap";
+import CommentForm from "../AddCommentsButton/AddCommentsButton";
+import CommentItem from "../CommentItem/commentItem";
 
-function ListItem({
-  site,
-  handleDelete,
-  // editId,
-  // setEditId,
-  setMegalith,
-  // megalith,
-}) {
+function ListItem({ site, handleDelete, setMegalith }) {
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [comments, setComments] = useState([]);
   const [updatedFields, setUpdatedFields] = useState({
     name: site.name,
     description: site.description || "",
   });
   const [editId, setEditId] = useState(null);
+
   useEffect(() => {
     if (editId === site._id || editId === site.id) setIsEditing(true);
     else setIsEditing(false);
   }, [editId, site]);
 
+  useEffect(() => {
+    fetchComment();
+  }, []);
+
   const handleFieldChange = (field, value) =>
     setUpdatedFields((prev) => ({ ...prev, [field]: value }));
+  const fetchComment = async () => {
+    try {
+      const commentsfetched = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/comments/${site._id}`
+      );
+
+      console.log("Fetched comments:", commentsfetched.data);
+
+      const commentsData = Array.isArray(commentsfetched.data)
+        ? commentsfetched.data
+        : [commentsfetched.data];
+
+      setComments(commentsData);
+    } catch (error) {
+      console.error("Error fetching the comments:", error);
+    }
+  };
 
   const handleUpdate = async () => {
     try {
@@ -43,7 +61,9 @@ function ListItem({
       console.error("Error updating the item:", error);
     }
   };
-
+  const addComment = (newComment) => {
+    setComments((prevComments) => [...prevComments, newComment]);
+  };
   return (
     <div className="ListItem">
       {isEditing ? (
@@ -80,6 +100,15 @@ function ListItem({
             </button>
           </div>
           <MiniMap lat={site.position.lat} lng={site.position.long} />
+          {comments &&
+            comments.map((comment) => (
+              <CommentItem key={comment.id} comment={comment} />
+            ))}
+
+          <CommentForm
+            addComment={addComment}
+            megalithId={site._id}
+          ></CommentForm>
         </div>
       )}
 

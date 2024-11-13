@@ -6,7 +6,7 @@ body {
   font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+  background-color: #626258;
 }
 
 /* Container Styling */
@@ -16,6 +16,7 @@ body {
   padding: 10px;
   gap: 20px;
   align-items: center;
+  background-color: #626258;
 }
 
 /* Main Container Styling for Mobile First */

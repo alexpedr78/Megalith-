@@ -11,6 +11,8 @@ import InfosPage from "./Pages/Infos/InfosPage";
 import SideBar from "./Components/SideBar/SideBar";
 import ListPage from "./Pages/ListPage/ListPage";
 import DetailPage from "./Pages/DetailPage/DetailPage.jsx";
+import LoginPage from "./Pages/LoginPage/LoginPage.jsx";
+import AuthPage from "./Pages/AuthPage/AuthPage.jsx";
 import "./App.css";
 const LIBRARIES = ["places", "marker"];
 function App() {
@@ -48,18 +50,21 @@ function App() {
   return (
     <LoadScript googleMapsApiKey={apiKey} libraries={LIBRARIES}>
       <div className="App">
-        {location.pathname !== "/" && <NavBar toggleSidebar={toggleSidebar} />}
+        {location.pathname !== "/" && location.pathname !== "/auth" && (
+          <NavBar toggleSidebar={toggleSidebar} />
+        )}
 
         <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
         <div className="main-content">
           <Routes>
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/infos" element={<InfosPage />} />
             <Route path="/favorites" element={<FavoritePage />} />
             <Route path="/list" element={<ListPage />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="/detail" element={<DetailPage />} />
+            <Route path="/detail/:id" element={<DetailPage />} />
           </Routes>
         </div>
 
