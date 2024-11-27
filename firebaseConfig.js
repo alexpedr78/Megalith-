@@ -1,9 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD8asnCk694f_ahW-2vXjdoKYuBV7rEubw",
+  apiKey: `${import.meta.env.FIREBASE_API_KEY}`,
   authDomain: "megalith-82e63.firebaseapp.com",
   projectId: "megalith-82e63",
   storageBucket: "megalith-82e63.appspot.com",
@@ -13,7 +12,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-// const analytics = getAnalytics(app);
 
 export const auth = getAuth(app);

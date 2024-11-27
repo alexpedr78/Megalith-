@@ -3,6 +3,7 @@ import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./MapPage.css";
+
 import SelectComponent from "../../Components/SelectComponent/SelectComponent.jsx";
 import MegalithTypeOptions from "../../Components/SelectComponent/TypeOptions.jsx";
 import RegionOptions from "../../Components/SelectComponent/RegionOptions.jsx";
@@ -66,36 +67,27 @@ function MapComponent() {
     }
   }, [map]);
 
-  const addLocationButton = useCallback(() => {
-    if (map) {
-      const locationButton = document.createElement("div");
-      locationButton.className = "custom-location-button";
-      locationButton.textContent = "My Location";
-      locationButton.style.backgroundColor = "#fff";
-      locationButton.style.border = "2px solid #fff";
-      locationButton.style.borderRadius = "3px";
-      locationButton.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
-      locationButton.style.cursor = "pointer";
-      locationButton.style.margin = "10px";
-      locationButton.style.padding = "6px";
-      locationButton.style.textAlign = "center";
-
-      locationButton.addEventListener("click", handleFindLocation);
-      map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(
-        locationButton
+  const handleSaveNewMegalith = async (megalithData) => {
+    try {
+      // Include position in the megalith data
+      const newMegalith = { ...megalithData, position: newMegalithPosition };
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/megalith`,
+        newMegalith
       );
+      fetchMarkers(); // Refresh markers after adding a new one
+      setNewMegalithPosition(null);
+      setAddToggle(false);
+    } catch (error) {
+      console.error("Error saving new megalith:", error);
     }
-  }, [map, handleFindLocation]);
-
-  useEffect(() => {
-    if (map) addLocationButton();
-  }, [map, addLocationButton]);
+  };
 
   const navigate = useNavigate();
 
   return (
     <div className="mapComponent">
-      <div className="filterContainer">
+      <div className="toolbar">
         <SelectComponent
           setAddToggle={setAddToggle}
           addToggle={addToggle}
@@ -114,10 +106,19 @@ function MapComponent() {
           value={region}
           onChange={(event) => setRegion(event.target.value)}
         />
+
+        <button
+          className="find-location-button"
+          onClick={() => setAddToggle(!addToggle)}
+        >
+          {!addToggle ? "Add your Megalith" : "Close and Cancel"}
+        </button>
+        <button className="recenter-button" onClick={handleFindLocation}>
+          My Location
+        </button>
       </div>
 
-      {addToggle && <AddMegalithForm />}
-
+      {addToggle && <AddMegalithForm han />}
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
@@ -162,18 +163,6 @@ function MapComponent() {
               />
               <button
                 className="infoWindow-button"
-                onClick={() => setAddComment(!addComment)}
-              >
-                {addComment ? "Cancel" : "Add Comment"}
-              </button>
-              {addComment && (
-                <CommentForm
-                  megalithId={selectedMarker._id}
-                  onCommentAdded={(newComment) => handleAddComment(newComment)}
-                />
-              )}
-              <button
-                className="infoWindow-button"
                 onClick={() =>
                   navigate("/detail/" + selectedMarker._id, {
                     state: { site: selectedMarker },
@@ -186,17 +175,6 @@ function MapComponent() {
           </InfoWindow>
         )}
       </GoogleMap>
-      <div className="AddButton-mp">
-        <button
-          className="find-location-button"
-          onClick={() => setAddToggle(!addToggle)}
-        >
-          {!addToggle ? "Add your Megalith" : "Close and Cancel"}
-        </button>
-        <button className="recenter-button" onClick={handleFindLocation}>
-          My Location
-        </button>
-      </div>
     </div>
   );
 }

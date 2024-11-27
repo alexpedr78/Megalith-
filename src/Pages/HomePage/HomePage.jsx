@@ -18,9 +18,9 @@ function HomePage() {
     }, 3000);
   }, []);
 
-  // if (loading) {
-  //   return <LoadingSpinner />;
-  // }
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="main-container">

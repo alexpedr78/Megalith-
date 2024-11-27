@@ -1,17 +1,19 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { useState } from "react";
 import { LoadScript } from "@react-google-maps/api";
-//
 import HomePage from "./Pages/HomePage/HomePage";
 import FavoritePage from "./Pages/FavoritePage/FavoritePage";
 import MapPage from "./Pages/MapPage/MapPage";
 import NavBar from "./Components/NavBar/NavBar";
-import Footer from "./Components/Footer/Footer";
 import InfosPage from "./Pages/Infos/InfosPage";
 import SideBar from "./Components/SideBar/SideBar";
 import ListPage from "./Pages/ListPage/ListPage";
 import DetailPage from "./Pages/DetailPage/DetailPage.jsx";
-import LoginPage from "./Pages/LoginPage/LoginPage.jsx";
 import AuthPage from "./Pages/AuthPage/AuthPage.jsx";
 import "./App.css";
 const LIBRARIES = ["places", "marker"];
@@ -19,29 +21,7 @@ function App() {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   console.log("google", apiKey);
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation(); // Use `useLocation` to track current path
-  // const [theme, setTheme] = useState(() => {
-  //   const currentTheme = localStorage.getItem("theme");
-
-  //   if (currentTheme) {
-  //     document.documentElement.className = currentTheme;
-  //     return currentTheme;
-  //   }
-  //   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  //     document.documentElement.className = "dark";
-  //     return "dark";
-  //   } else {
-  //     document.documentElement.className = "light";
-  //     return "light";
-  //   }
-  // });
-
-  // function handleChange() {
-  //   const newTheme = theme === "light" ? "dark" : "light";
-  //   document.documentElement.className = newTheme;
-  //   setTheme(newTheme);
-  //   localStorage.setItem("theme", newTheme);
-  // }
+  const location = useLocation();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
